@@ -3,6 +3,7 @@ package com.fleetmanagement.populator.impl;
 import com.fleetmanagement.data.vehicle.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.populator.Converter;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 
@@ -10,6 +11,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@Qualifier("vehicleDataModelConverter")
 public class VehicleDataModelConverter implements Converter<VehicleDataList, List<Vehicle>> {
 
     @Override

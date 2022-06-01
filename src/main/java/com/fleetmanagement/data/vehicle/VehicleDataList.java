@@ -1,7 +1,5 @@
 package com.fleetmanagement.data.vehicle;
 
-import com.fleetmanagement.model.Vehicle;
-
 import java.util.List;
 
 public class VehicleDataList {
@@ -13,6 +11,14 @@ public class VehicleDataList {
     }
 
     public static class VehicleData{
+
+        public VehicleData(String plateNumber) {
+            this.plateNumber = plateNumber;
+        }
+
+        public VehicleData() {
+
+        }
 
         private String plateNumber;
 

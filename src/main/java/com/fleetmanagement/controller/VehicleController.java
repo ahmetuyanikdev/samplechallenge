@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,8 +26,14 @@ public class VehicleController {
     @ResponseBody
     public HttpStatus createVehicle(@RequestBody VehicleDataList vehicleDataList){
         logger.info(vehicleDataList.toString());
-        vehicleService.save(vehicleDataList);
+        vehicleService.saveVehicles(vehicleDataList);
         return HttpStatus.OK;
+    }
+
+    @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody
+    public VehicleDataList getAllVehicles(){
+        return vehicleService.getAllVehicles();
     }
 
     public void setVehicleService(VehicleService vehicleService) {
