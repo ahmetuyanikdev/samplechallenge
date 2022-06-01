@@ -4,7 +4,6 @@ import com.fleetmanagement.data.vehicle.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.populator.Converter;
 import com.fleetmanagement.populator.ReverseConverter;
-import com.fleetmanagement.populator.impl.VehicleDataModelConverter;
 import com.fleetmanagement.repository.VehicleRepository;
 import com.fleetmanagement.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
