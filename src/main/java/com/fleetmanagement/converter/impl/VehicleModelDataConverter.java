@@ -1,8 +1,8 @@
-package com.fleetmanagement.populator.impl;
+package com.fleetmanagement.converter.impl;
 
 import com.fleetmanagement.data.vehicle.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
-import com.fleetmanagement.populator.ReverseConverter;
+import com.fleetmanagement.converter.ReverseConverter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
