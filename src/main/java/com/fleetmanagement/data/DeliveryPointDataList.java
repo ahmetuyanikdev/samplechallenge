@@ -1,5 +1,7 @@
 package com.fleetmanagement.data;
 
+import com.fleetmanagement.model.DeliveryPoint;
+
 import java.io.Serializable;
 import java.util.List;
 
@@ -12,6 +14,15 @@ public class DeliveryPointDataList implements Serializable {
     }
 
     public static class DeliveryPointData{
+
+        public DeliveryPointData() {
+
+        }
+
+        public DeliveryPointData(DeliveryPoint deliveryPoint){
+            id=deliveryPoint.getId();
+            type=deliveryPoint.getType();
+        }
 
         private int id;
 

@@ -15,11 +15,11 @@ import static org.mockito.Mockito.when;
 
 public class VehicleControllerUnitTest extends AbstractControllerTest {
 
-    VehicleService vehicleService;
+    private VehicleService vehicleService;
 
-    VehicleDataList vehicleDataList;
+    private VehicleDataList vehicleDataList;
 
-    List<VehicleDataList.VehicleData> vehicles;
+    private List<VehicleDataList.VehicleData> vehicles;
 
     @Before
     @Override

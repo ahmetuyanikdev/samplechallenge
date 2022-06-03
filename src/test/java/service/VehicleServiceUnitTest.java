@@ -14,6 +14,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -22,6 +24,8 @@ import static org.mockito.ArgumentMatchers.anyList;
 
 @RunWith(MockitoJUnitRunner.class)
 public class VehicleServiceUnitTest {
+
+    private Logger logger = LoggerFactory.getLogger(VehicleServiceUnitTest.class);
 
     @InjectMocks
     private VehicleServiceImpl vehicleService;
@@ -35,11 +39,11 @@ public class VehicleServiceUnitTest {
     @Mock
     private ReverseConverter<List<Vehicle>, VehicleDataList> reverseConverter;
 
-    List<Vehicle> vehicles;
+    private List<Vehicle> vehicles;
 
-    VehicleDataList vehicleData;
+    private VehicleDataList vehicleDataList;
 
-    List<VehicleDataList.VehicleData> vehicleDataList;
+    private List<VehicleDataList.VehicleData> dataList;
 
     @Before
     public void setup() {
@@ -55,18 +59,18 @@ public class VehicleServiceUnitTest {
 
         vehicles.add(v1);
         vehicles.add(v2);
-        vehicleDataList = new LinkedList<>();
-        vehicleDataList.add(vehicleData1);
-        vehicleDataList.add(vehicleData2);
+        dataList = new LinkedList<>();
+        dataList.add(vehicleData1);
+        dataList.add(vehicleData2);
 
-        vehicleData = new VehicleDataList();
-        vehicleData.setVehicles(vehicleDataList);
+        vehicleDataList = new VehicleDataList();
+        vehicleDataList.setVehicles(dataList);
     }
 
     @Test
     public void test_getAllVehicles_Success() {
         Mockito.when(vehicleRepository.findAll()).thenReturn(vehicles);
-        Mockito.when(reverseConverter.convert(vehicles)).thenReturn(vehicleData);
+        Mockito.when(reverseConverter.convert(vehicles)).thenReturn(vehicleDataList);
         Assert.assertFalse(vehicleService.getAllVehicles().getVehicles().isEmpty());
         Assert.assertEquals("34ABC01", vehicleService.getAllVehicles().getVehicles().get(0).getPlateNumber());
     }
@@ -79,18 +83,18 @@ public class VehicleServiceUnitTest {
 
     @Test
     public void test_saveVehicle_Success(){
-        Mockito.when(converter.convert(vehicleData)).thenReturn(vehicles);
+        Mockito.when(converter.convert(vehicleDataList)).thenReturn(vehicles);
         Mockito.when(vehicleRepository.saveAll(vehicles)).thenReturn(vehicles);
-        Assert.assertFalse(vehicleService.saveVehicles(vehicleData).isEmpty());
+        Assert.assertFalse(vehicleService.saveVehicles(vehicleDataList).isEmpty());
     }
 
     @Test
     public void test_saveVehicle_Fail(){
-        Mockito.when(converter.convert(vehicleData)).thenThrow(NullPointerException.class);
+        Mockito.when(converter.convert(vehicleDataList)).thenThrow(NullPointerException.class);
         try {
-            vehicleService.saveVehicles(vehicleData);
+            vehicleService.saveVehicles(vehicleDataList);
         }catch (NullPointerException e){
-
+            logger.warn("---- Exception during test method invocation ");
         }
         finally {
             Mockito.verify(vehicleRepository,Mockito.times(0)).saveAll(anyList());

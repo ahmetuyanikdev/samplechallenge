@@ -1,25 +1,37 @@
 package com.fleetmanagement.controller;
 
 import com.fleetmanagement.data.DeliveryPointDataList;
+import com.fleetmanagement.service.DeliveryPointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+@RestController
 @RequestMapping(value = "/delivery-point")
 public class DeliveryPointController {
 
-    Logger logger = LoggerFactory.getLogger(DeliveryPointController.class);
+    private Logger logger = LoggerFactory.getLogger(DeliveryPointController.class);
+
+    @Autowired
+    private DeliveryPointService deliveryPointService;
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
     public HttpStatus createDeliveryPoint(@RequestBody DeliveryPointDataList deliveryPointDataList){
        logger.info(deliveryPointDataList.toString());
-        return HttpStatus.OK;
+       deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
+       return HttpStatus.OK;
     }
+
+    @RequestMapping(method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+    public DeliveryPointDataList getAllDeliveryPoints(){
+        return deliveryPointService.getAllDeliveryPoints();
+    }
+
+    public void setDeliveryPointService(DeliveryPointService deliveryPointService) {
+        this.deliveryPointService = deliveryPointService;
+    }
+
 }
