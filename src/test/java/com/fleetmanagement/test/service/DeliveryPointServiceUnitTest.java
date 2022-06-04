@@ -1,4 +1,4 @@
-package service;
+package com.fleetmanagement.test.service;
 
 import com.fleetmanagement.constant.DeliveryPointType;
 import com.fleetmanagement.converter.Converter;
