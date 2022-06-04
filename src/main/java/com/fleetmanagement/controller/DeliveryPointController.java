@@ -10,7 +10,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping(value = "/delivery-point")
+@RequestMapping(value = "/delivery-points")
 public class DeliveryPointController {
 
     private Logger logger = LoggerFactory.getLogger(DeliveryPointController.class);

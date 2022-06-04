@@ -7,14 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
-@RequestMapping(value = "/vehicle")
+@RestController
+@RequestMapping(value = "/vehicles")
 public class VehicleController {
 
     private Logger logger = LoggerFactory.getLogger(VehicleController.class);
@@ -23,7 +19,6 @@ public class VehicleController {
     private VehicleService vehicleService;
 
     @RequestMapping(method = RequestMethod.POST)
-    @ResponseBody
     public HttpStatus createVehicle(@RequestBody VehicleDataList vehicleDataList){
         logger.info(vehicleDataList.toString());
         vehicleService.saveVehicles(vehicleDataList);
@@ -31,7 +26,6 @@ public class VehicleController {
     }
 
     @RequestMapping(method = RequestMethod.GET,produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
     public VehicleDataList getAllVehicles(){
         return vehicleService.getAllVehicles();
     }

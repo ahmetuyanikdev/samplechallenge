@@ -1,24 +1,19 @@
 package com.fleetmanagement.model.item;
 
-import java.util.List;
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import java.util.Set;
 
-
+@Entity
 public class Bag extends Item {
 
-    private List<Item> items;
+    @OneToMany(mappedBy = "bag")
+    private Set<Package> packages;
 
-    public List<Item> getItems() {
-        return items;
+    public void addItem(Package pack){
+        packages.add(pack);
     }
-
-    public void setItems(List<Item> items) {
-        this.items = items;
-    }
-
-    public void addItem(Item item){
-        items.add(item);
-    }
-    public void removeItem(Item item){
-        items.remove(item);
+    public void removeItem(Package pack){
+        packages.remove(pack);
     }
 }

@@ -1,5 +1,7 @@
 package com.fleetmanagement.data.item;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
 public class ItemDataList {
@@ -13,6 +15,8 @@ public class ItemDataList {
 
         private String barcode;
         private int deliveryPoint;
+
+        @JsonInclude(JsonInclude.Include.NON_DEFAULT)
         private int volumetricWeight;
 
         public String getBarcode() {
