@@ -10,7 +10,7 @@ public class Bag extends Shipment {
     @OneToMany(mappedBy = "bag")
     private Set<Package> packages;
 
-    public void addItem(Package pack){
+    public void addPackage(Package pack){
         packages.add(pack);
     }
     public void removeItem(Package pack){

@@ -51,9 +51,10 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public List<Shipment> assignShipments(ShipmentAssignmentDataList assignmentDataList) {
+    public ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList) {
         List<Shipment> allAssignedShipments = itemAssignmentConverter.convert(assignmentDataList);
-        return shipmentRepository.saveAll(allAssignedShipments);
+        List<Shipment> shipments = shipmentRepository.saveAll(allAssignedShipments);
+        return reverseConverter.convert(shipments);
     }
 
     public void setReverseConverter(ReverseConverter<List<Shipment>, ShipmentDataList> reverseConverter) {

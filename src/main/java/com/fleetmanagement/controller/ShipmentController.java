@@ -31,9 +31,8 @@ public class ShipmentController {
     }
 
     @RequestMapping(value = "/assignments",method = RequestMethod.POST)
-    public HttpStatus assignPackagesToBags(@RequestBody ShipmentAssignmentDataList shipmentAssignmentDataList) {
-        shipmentService.assignShipments(shipmentAssignmentDataList);
-        return HttpStatus.OK;
+    public ShipmentDataList assignPackagesToBags(@RequestBody ShipmentAssignmentDataList shipmentAssignmentDataList) {
+        return shipmentService.assignShipments(shipmentAssignmentDataList);
     }
 
     public void setShipmentService(ShipmentService shipmentService) {

@@ -43,7 +43,7 @@ public class ShipmentServiceUnitTest {
     private ReverseConverter<List<Shipment>, ShipmentDataList> reverseConverter;
 
     @Mock
-    private Converter<ShipmentAssignmentDataList,List<Shipment>> itemAssignmentConverter;
+    private Converter<ShipmentAssignmentDataList, List<Shipment>> itemAssignmentConverter;
 
     private ShipmentDataList shipmentDataList;
 
@@ -95,7 +95,7 @@ public class ShipmentServiceUnitTest {
         shipmentAssignment1.setBagBarcode("C725799");
         List<ShipmentAssignmentDataList.ShipmentAssignment> shipmentAssignments = new LinkedList<>();
         shipmentAssignments.add(shipmentAssignment1);
-
+        shipmentAssignmentDataList.setShipmentAssignments(shipmentAssignments);
     }
 
     @Test
@@ -120,29 +120,30 @@ public class ShipmentServiceUnitTest {
     }
 
     @Test
-    public void test_saveShipment_success(){
+    public void test_saveShipment_success() {
         Mockito.when(converter.convert(shipmentDataList)).thenReturn(shipments);
         Mockito.when(shipmentRepository.saveAll(shipments)).thenReturn(shipments);
         Assert.assertFalse(itemService.saveShipments(shipmentDataList).isEmpty());
     }
 
     @Test
-    public void test_saveShipment_fail(){
+    public void test_saveShipment_fail() {
         Mockito.when(converter.convert(shipmentDataList)).thenThrow(NumberFormatException.class);
-        try{
+        try {
             itemService.saveShipments(shipmentDataList);
-        }catch (Exception e){
+        } catch (Exception e) {
             logger.warn("---- Exception during test method invocation ");
-        }finally {
-            Mockito.verify(shipmentRepository,Mockito.never()).saveAll(shipments);
+        } finally {
+            Mockito.verify(shipmentRepository, Mockito.never()).saveAll(shipments);
         }
     }
 
     @Test
-    public void test_assignShipments_success(){
+    public void test_assignShipments_success() {
         Mockito.when(itemAssignmentConverter.convert(shipmentAssignmentDataList)).thenReturn(shipments);
         Mockito.when(shipmentRepository.saveAll(shipments)).thenReturn(shipments);
-        Assert.assertTrue(itemService.assignShipments(shipmentAssignmentDataList).stream().anyMatch(item -> item.getBarcode().equals("P8988000120")));
+        Mockito.when(reverseConverter.convert(shipments)).thenReturn(shipmentDataList);
+        Assert.assertTrue(itemService.assignShipments(shipmentAssignmentDataList).getShipments().stream().anyMatch(item -> item.getBarcode().equals("P8988000120")));
     }
 
 }

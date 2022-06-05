@@ -1,5 +1,7 @@
 package com.fleetmanagement.converter.impl;
 
+import com.fleetmanagement.constant.BagStatus;
+import com.fleetmanagement.constant.PackageStatus;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.data.item.ShipmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
@@ -41,6 +43,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
         packageItems.forEach(pi -> {
             Package aPackage = new Package();
             aPackage.setBarcode(pi.getBarcode());
+            aPackage.setStatus(PackageStatus.Created.getValue());
             aPackage.setDeliveryPoint(deliveryPointService.getDeliveryPointById(pi.getDeliveryPoint()));
             aPackage.setVolumetricWeight(pi.getVolumetricWeight());
             packageList.add(aPackage);
@@ -57,6 +60,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
         bagItems.forEach(bi -> {
             Bag bag = new Bag();
             bag.setBarcode(bi.getBarcode());
+            bag.setStatus(BagStatus.Created.getValue());
             bag.setDeliveryPoint(deliveryPointService.getDeliveryPointById(bi.getDeliveryPoint()));
             bagList.add(bag);
         });

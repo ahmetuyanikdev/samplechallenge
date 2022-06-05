@@ -31,34 +31,33 @@ public class ShipmentModelDataConverter implements ReverseConverter<List<Shipmen
     public ShipmentDataList convert(List<Shipment> shipments) {
         List<ShipmentDataList.ShipmentData> dataList = shipments.stream()
                 .map(i -> converterMap.get(i.getClass()).
-                convert(i)).collect(Collectors.toList());
+                        convert(i)).collect(Collectors.toList());
         ShipmentDataList shipmentDataList = new ShipmentDataList();
         shipmentDataList.setShipments(dataList);
         return shipmentDataList;
     }
 
-    public abstract class InternalConverter {
-        protected abstract ShipmentDataList.ShipmentData convert(Shipment shipment);
-    }
-
-    public class BagInternalConverter extends InternalConverter {
-
-        @Override
+    public class InternalConverter {
         protected ShipmentDataList.ShipmentData convert(Shipment shipment) {
             ShipmentDataList.ShipmentData shipmentData = new ShipmentDataList.ShipmentData();
             shipmentData.setBarcode(shipment.getBarcode());
             shipmentData.setDeliveryPoint(shipment.getDeliveryPoint().getId());
+            shipmentData.setStatus(shipment.getStatus());
             return shipmentData;
         }
     }
 
-    public class PackageInternalConverter extends InternalConverter {
-
+    public class BagInternalConverter extends InternalConverter {
         @Override
         protected ShipmentDataList.ShipmentData convert(Shipment shipment) {
-            ShipmentDataList.ShipmentData shipmentData = new ShipmentDataList.ShipmentData();
-            shipmentData.setBarcode(shipment.getBarcode());
-            shipmentData.setDeliveryPoint(shipment.getDeliveryPoint().getId());
+            return super.convert(shipment);
+        }
+    }
+
+    public class PackageInternalConverter extends InternalConverter {
+        @Override
+        protected ShipmentDataList.ShipmentData convert(Shipment shipment) {
+            ShipmentDataList.ShipmentData shipmentData = super.convert(shipment);
             shipmentData.setVolumetricWeight(((Package) shipment).getVolumetricWeight());
             return shipmentData;
         }

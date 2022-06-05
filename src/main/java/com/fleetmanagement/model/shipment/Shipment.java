@@ -21,7 +21,7 @@ public class Shipment {
     @JoinColumn(name = "vehicle_plateNumber",referencedColumnName = "plateNumber",nullable = true)
     private Vehicle vehicle;
 
-    private String status;
+    private int status;
 
 
     public String getBarcode() {
@@ -36,7 +36,15 @@ public class Shipment {
         return deliveryPoint;
     }
 
-    public void setStatus(String status) {
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
         this.status = status;
     }
 

@@ -1,5 +1,6 @@
 package com.fleetmanagement.converter.impl;
 
+import com.fleetmanagement.constant.PackageStatus;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
@@ -36,14 +37,19 @@ public class ShipmentAssignmentDataListModelConverter implements Converter<Shipm
         Map<String, Package> packageMap = getPackagesMap(packBarcodes);
         Map<String, Bag> bagMap = getBagsMap(bagBarcodes);
 
-        List<Shipment> allAssignedShipments = getAssignedItems(assignmentDataList, packageMap, bagMap);
-        return allAssignedShipments;
+        return getAssignedItems(assignmentDataList, packageMap, bagMap);
     }
 
     private List<Shipment> getAssignedItems(ShipmentAssignmentDataList assignmentDataList, Map<String, Package> packageMap, Map<String, Bag> bagMap) {
         assignmentDataList.getShipmentAssignments().forEach(shipmentAssignment -> {
-            packageMap.get(shipmentAssignment.getBarcode()).setBag(bagMap.get(shipmentAssignment.getBagBarcode()));
-            bagMap.get(shipmentAssignment.getBagBarcode()).addItem(packageMap.get(shipmentAssignment.getBarcode()));
+            Package pack = packageMap.get(shipmentAssignment.getBarcode());
+            pack.setBag(bagMap.get(shipmentAssignment.getBagBarcode()));
+            pack.setStatus(PackageStatus.Loaded_Into_Bag.getValue());
+            packageMap.put(shipmentAssignment.getBarcode(),pack);
+
+            Bag bag = bagMap.get(shipmentAssignment.getBagBarcode());
+            bag.addPackage(packageMap.get(shipmentAssignment.getBarcode()));
+            bagMap.put(shipmentAssignment.getBarcode(),bag);
         });
 
         List<Shipment> allAssignedShipments = new LinkedList<>();
@@ -52,13 +58,13 @@ public class ShipmentAssignmentDataListModelConverter implements Converter<Shipm
         return allAssignedShipments;
     }
 
-    private Map<String,Package> getPackagesMap(Set<String> packBarcodes) {
+    private Map<String, Package> getPackagesMap(Set<String> packBarcodes) {
         return shipmentRepository.findAllById(packBarcodes).stream().filter(item -> item instanceof Package)
                 .map(item -> (Package) item).
                         collect(Collectors.toMap(Package::getBarcode, Function.identity()));
     }
 
-    private Map<String,Bag> getBagsMap(Set<String> bagBarcodes) {
+    private Map<String, Bag> getBagsMap(Set<String> bagBarcodes) {
         return shipmentRepository.findAllById(bagBarcodes).stream().filter(item -> item instanceof Bag)
                 .map(item -> (Bag) item).
                         collect(Collectors.toMap(Bag::getBarcode, Function.identity()));

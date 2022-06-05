@@ -10,5 +10,5 @@ public interface ShipmentService {
     List<Shipment> saveShipments(ShipmentDataList shipmentDataList);
     ShipmentDataList getAllShipments();
     Shipment getShipmentByBarcode(String barcode);
-    List<Shipment> assignShipments(ShipmentAssignmentDataList assignmentDataList);
+    ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList);
 }

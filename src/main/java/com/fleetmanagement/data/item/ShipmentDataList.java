@@ -15,7 +15,7 @@ public class ShipmentDataList {
 
         private String barcode;
         private int deliveryPoint;
-
+        private int status;
         @JsonInclude(JsonInclude.Include.NON_DEFAULT)
         private int volumetricWeight;
 
@@ -41,6 +41,14 @@ public class ShipmentDataList {
 
         public void setVolumetricWeight(int volumetricWeight) {
             this.volumetricWeight = volumetricWeight;
+        }
+
+        public int getStatus() {
+            return status;
+        }
+
+        public void setStatus(int status) {
+            this.status = status;
         }
     }
 
