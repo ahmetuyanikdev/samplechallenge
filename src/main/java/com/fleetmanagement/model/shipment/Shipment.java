@@ -1,6 +1,7 @@
-package com.fleetmanagement.model.item;
+package com.fleetmanagement.model.shipment;
 
 import com.fleetmanagement.model.DeliveryPoint;
+import com.fleetmanagement.model.Vehicle;
 
 import javax.persistence.*;
 
@@ -16,6 +17,13 @@ public class Shipment {
     @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id")
     private DeliveryPoint deliveryPoint;
 
+    @ManyToOne
+    @JoinColumn(name = "vehicle_plateNumber",referencedColumnName = "plateNumber",nullable = true)
+    private Vehicle vehicle;
+
+    private String status;
+
+
     public String getBarcode() {
         return barcode;
     }
@@ -26,6 +34,14 @@ public class Shipment {
 
     public DeliveryPoint getDeliveryPoint() {
         return deliveryPoint;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
 
     public void setDeliveryPoint(DeliveryPoint deliveryPoint) {

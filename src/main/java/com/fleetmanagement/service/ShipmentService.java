@@ -2,7 +2,7 @@ package com.fleetmanagement.service;
 
 import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
 import com.fleetmanagement.data.item.ShipmentDataList;
-import com.fleetmanagement.model.item.Shipment;
+import com.fleetmanagement.model.shipment.Shipment;
 
 import java.util.List;
 

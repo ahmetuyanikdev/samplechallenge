@@ -2,9 +2,9 @@ package com.fleetmanagement.converter.impl;
 
 import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.data.item.ShipmentDataList;
-import com.fleetmanagement.model.item.Bag;
-import com.fleetmanagement.model.item.Shipment;
-import com.fleetmanagement.model.item.Package;
+import com.fleetmanagement.model.shipment.Bag;
+import com.fleetmanagement.model.shipment.Shipment;
+import com.fleetmanagement.model.shipment.Package;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 

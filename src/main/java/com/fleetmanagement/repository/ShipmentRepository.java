@@ -1,6 +1,6 @@
 package com.fleetmanagement.repository;
 
-import com.fleetmanagement.model.item.Shipment;
+import com.fleetmanagement.model.shipment.Shipment;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

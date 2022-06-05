@@ -10,9 +10,9 @@ public class RouteData {
 
     private int deliveryPoint;
 
-    private List<ItemBarcode> deliveries;
+    private List<ShipmentBarcode> deliveries;
 
-    public static class ItemBarcode {
+    public static class ShipmentBarcode {
 
         public String barcode;
 
@@ -29,11 +29,11 @@ public class RouteData {
         return deliveryPoint;
     }
 
-    public List<ItemBarcode> getDeliveries() {
+    public List<ShipmentBarcode> getDeliveries() {
         return deliveries;
     }
 
-    public void setDeliveries(List<ItemBarcode> deliveries) {
+    public void setDeliveries(List<ShipmentBarcode> deliveries) {
         this.deliveries = deliveries;
     }
 

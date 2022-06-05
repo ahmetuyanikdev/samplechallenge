@@ -1,4 +1,4 @@
-package com.fleetmanagement.model.item;
+package com.fleetmanagement.model.shipment;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;

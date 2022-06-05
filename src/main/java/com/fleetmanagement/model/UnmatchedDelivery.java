@@ -1,6 +1,6 @@
 package com.fleetmanagement.model;
 
-import com.fleetmanagement.model.item.Shipment;
+import com.fleetmanagement.model.shipment.Shipment;
 
 public class UnmatchedDelivery {
 

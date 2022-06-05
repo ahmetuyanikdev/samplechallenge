@@ -5,7 +5,7 @@ import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.converter.impl.ShipmentDataModelConverter;
 import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
 import com.fleetmanagement.data.item.ShipmentDataList;
-import com.fleetmanagement.model.item.Shipment;
+import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.repository.ShipmentRepository;
 import com.fleetmanagement.service.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
