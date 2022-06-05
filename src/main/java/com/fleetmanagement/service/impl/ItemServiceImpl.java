@@ -3,6 +3,7 @@ package com.fleetmanagement.service.impl;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.converter.impl.ItemDataModelConverter;
+import com.fleetmanagement.data.item.ItemAssignmentDataList;
 import com.fleetmanagement.data.item.ItemDataList;
 import com.fleetmanagement.model.item.Item;
 import com.fleetmanagement.repository.ItemRepository;
@@ -10,8 +11,8 @@ import com.fleetmanagement.service.ItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
+
 
 @Service
 public class ItemServiceImpl implements ItemService {
@@ -21,11 +22,15 @@ public class ItemServiceImpl implements ItemService {
 
     @Autowired
     @Qualifier("itemDataModelConverter")
-    private Converter<ItemDataList,List<Item>> converter;
+    private Converter<ItemDataList, List<Item>> converter;
 
     @Autowired
     @Qualifier("itemModelDataConverter")
-    private ReverseConverter<List<Item>,ItemDataList> reverseConverter;
+    private ReverseConverter<List<Item>, ItemDataList> reverseConverter;
+
+    @Autowired
+    @Qualifier("itemAssignmentDataListModelConverter")
+    private Converter<ItemAssignmentDataList, List<Item>> itemAssignmentConverter;
 
 
     @Override
@@ -45,11 +50,25 @@ public class ItemServiceImpl implements ItemService {
         return itemRepository.getItemByBarcode(barcode);
     }
 
+    @Override
+    public List<Item> assignItems(ItemAssignmentDataList assignmentDataList) {
+        List<Item> allAssignedItems = itemAssignmentConverter.convert(assignmentDataList);
+        return itemRepository.saveAll(allAssignedItems);
+    }
+
+    public void setReverseConverter(ReverseConverter<List<Item>, ItemDataList> reverseConverter) {
+        this.reverseConverter = reverseConverter;
+    }
+
     public void setItemRepository(ItemRepository itemRepository) {
         this.itemRepository = itemRepository;
     }
 
     public void setConverter(ItemDataModelConverter converter) {
         this.converter = converter;
+    }
+
+    public void setItemAssignmentConverter(Converter<ItemAssignmentDataList, List<Item>> itemAssignmentConverter) {
+        this.itemAssignmentConverter = itemAssignmentConverter;
     }
 }

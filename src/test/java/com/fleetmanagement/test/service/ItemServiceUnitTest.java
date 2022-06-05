@@ -2,6 +2,7 @@ package com.fleetmanagement.test.service;
 
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
+import com.fleetmanagement.data.item.ItemAssignmentDataList;
 import com.fleetmanagement.data.item.ItemDataList;
 import com.fleetmanagement.model.DeliveryPoint;
 import com.fleetmanagement.model.item.Bag;
@@ -41,17 +42,22 @@ public class ItemServiceUnitTest {
     @Mock
     private ReverseConverter<List<Item>, ItemDataList> reverseConverter;
 
+    @Mock
+    private Converter<ItemAssignmentDataList,List<Item>> itemAssignmentConverter;
+
     private ItemDataList itemDataList;
 
     private List<Item> items;
 
-    private List<ItemDataList.ItemData> dataList;
+    private ItemAssignmentDataList itemAssignmentDataList;
 
     @Before
     public void setup() {
         itemDataList = new ItemDataList();
         items = new LinkedList<>();
-        dataList = new LinkedList<>();
+        itemAssignmentDataList = new ItemAssignmentDataList();
+
+        List<ItemDataList.ItemData> dataList = new LinkedList<>();
 
         Bag bag1 = new Bag();
         Package pack1 = new Package();
@@ -83,6 +89,13 @@ public class ItemServiceUnitTest {
 
         dataList.add(itemData2);
         itemDataList.setItems(dataList);
+
+        ItemAssignmentDataList.ItemAssignment itemAssignment1 = new ItemAssignmentDataList.ItemAssignment();
+        itemAssignment1.setBarcode("P8988000120");
+        itemAssignment1.setBagBarcode("C725799");
+        List<ItemAssignmentDataList.ItemAssignment> itemAssignments = new LinkedList<>();
+        itemAssignments.add(itemAssignment1);
+
     }
 
     @Test
@@ -123,6 +136,13 @@ public class ItemServiceUnitTest {
         }finally {
             Mockito.verify(itemRepository,Mockito.never()).saveAll(items);
         }
+    }
+
+    @Test
+    public void test_assignItems_success(){
+        Mockito.when(itemAssignmentConverter.convert(itemAssignmentDataList)).thenReturn(items);
+        Mockito.when(itemRepository.saveAll(items)).thenReturn(items);
+        Assert.assertTrue(itemService.assignItems(itemAssignmentDataList).stream().anyMatch(item -> item.getBarcode().equals("P8988000120")));
     }
 
 }

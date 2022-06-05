@@ -32,7 +32,7 @@ public class ItemController {
 
     @RequestMapping(value = "/assignments",method = RequestMethod.POST)
     public HttpStatus assignPackagesToBags(@RequestBody ItemAssignmentDataList itemAssignmentDataList) {
-        logger.info(itemAssignmentDataList.toString());
+        itemService.assignItems(itemAssignmentDataList);
         return HttpStatus.OK;
     }
 

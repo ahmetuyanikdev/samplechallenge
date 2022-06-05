@@ -43,8 +43,6 @@ public class VehicleServiceUnitTest {
 
     private VehicleDataList vehicleDataList;
 
-    private List<VehicleDataList.VehicleData> dataList;
-
     @Before
     public void setup() {
         vehicles = new LinkedList<>();
@@ -59,7 +57,7 @@ public class VehicleServiceUnitTest {
 
         vehicles.add(v1);
         vehicles.add(v2);
-        dataList = new LinkedList<>();
+        List<VehicleDataList.VehicleData> dataList = new LinkedList<>();
         dataList.add(vehicleData1);
         dataList.add(vehicleData2);
 
