@@ -4,14 +4,14 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.util.List;
 
-public class ItemDataList {
+public class ShipmentDataList {
 
-    public ItemDataList() {
+    public ShipmentDataList() {
     }
 
-    private List<ItemData> items;
+    private List<ShipmentData> shipments;
 
-    public static class ItemData{
+    public static class ShipmentData {
 
         private String barcode;
         private int deliveryPoint;
@@ -44,11 +44,11 @@ public class ItemDataList {
         }
     }
 
-    public List<ItemData> getItems() {
-        return items;
+    public List<ShipmentData> getShipments() {
+        return shipments;
     }
 
-    public void setItems(List<ItemData> items) {
-        this.items = items;
+    public void setShipments(List<ShipmentData> shipments) {
+        this.shipments = shipments;
     }
 }

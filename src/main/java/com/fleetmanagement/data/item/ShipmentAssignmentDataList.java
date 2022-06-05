@@ -2,14 +2,14 @@ package com.fleetmanagement.data.item;
 
 import java.util.List;
 
-public class ItemAssignmentDataList {
+public class ShipmentAssignmentDataList {
 
-    private List<ItemAssignment> itemAssignments;
+    private List<ShipmentAssignment> shipmentAssignments;
 
-    public ItemAssignmentDataList() {
+    public ShipmentAssignmentDataList() {
     }
 
-    public static class ItemAssignment{
+    public static class ShipmentAssignment {
 
         private String barcode;
         private String bagBarcode;
@@ -31,11 +31,11 @@ public class ItemAssignmentDataList {
         }
     }
 
-    public List<ItemAssignment> getItemAssignments() {
-        return itemAssignments;
+    public List<ShipmentAssignment> getShipmentAssignments() {
+        return shipmentAssignments;
     }
 
-    public void setItemAssignments(List<ItemAssignment> itemAssignments) {
-        this.itemAssignments = itemAssignments;
+    public void setShipmentAssignments(List<ShipmentAssignment> shipmentAssignments) {
+        this.shipmentAssignments = shipmentAssignments;
     }
 }

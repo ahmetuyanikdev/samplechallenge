@@ -1,11 +1,11 @@
 package com.fleetmanagement.model;
 
-import com.fleetmanagement.model.item.Item;
+import com.fleetmanagement.model.item.Shipment;
 
 public class UnmatchedDelivery {
 
     private DeliveryPoint deliveryPoint;
-    private Item item;
+    private Shipment shipment;
 
     public DeliveryPoint getDeliveryPoint() {
         return deliveryPoint;
@@ -15,11 +15,11 @@ public class UnmatchedDelivery {
         this.deliveryPoint = deliveryPoint;
     }
 
-    public Item getItem() {
-        return item;
+    public Shipment getShipment() {
+        return shipment;
     }
 
-    public void setItem(Item item) {
-        this.item = item;
+    public void setShipment(Shipment shipment) {
+        this.shipment = shipment;
     }
 }

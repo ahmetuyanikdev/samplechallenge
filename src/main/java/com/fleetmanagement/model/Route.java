@@ -1,10 +1,10 @@
 package com.fleetmanagement.model;
 
-import com.fleetmanagement.model.item.Item;
+import com.fleetmanagement.model.item.Shipment;
 
 import java.util.List;
 
 public class Route {
     DeliveryPoint deliveryPoint;
-    List<Item> deliveries;
+    List<Shipment> deliveries;
 }

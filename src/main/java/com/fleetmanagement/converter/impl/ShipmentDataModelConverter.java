@@ -1,9 +1,9 @@
 package com.fleetmanagement.converter.impl;
 
 import com.fleetmanagement.converter.Converter;
-import com.fleetmanagement.data.item.ItemDataList;
+import com.fleetmanagement.data.item.ShipmentDataList;
 import com.fleetmanagement.model.item.Bag;
-import com.fleetmanagement.model.item.Item;
+import com.fleetmanagement.model.item.Shipment;
 import com.fleetmanagement.model.item.Package;
 import com.fleetmanagement.service.DeliveryPointService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,27 +15,27 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
-@Qualifier("itemDataModelConverter")
-public class ItemDataModelConverter implements Converter<ItemDataList, List<Item>> {
+@Qualifier("shipmentDataModelConverter")
+public class ShipmentDataModelConverter implements Converter<ShipmentDataList, List<Shipment>> {
 
     @Autowired
     private DeliveryPointService deliveryPointService;
 
     /*Bag and Package items can be differentiated by their volume value */
     @Override
-    public List<Item> convert(ItemDataList itemDataList) {
-        List<Item> allItems = new LinkedList<>();
-        List<Bag> bagList = getBags(itemDataList);
-        List<Package> packageList = getPackages(itemDataList);
-        allItems.addAll(bagList);
-        allItems.addAll(packageList);
-        return allItems;
+    public List<Shipment> convert(ShipmentDataList shipmentDataList) {
+        List<Shipment> allShipments = new LinkedList<>();
+        List<Bag> bagList = getBags(shipmentDataList);
+        List<Package> packageList = getPackages(shipmentDataList);
+        allShipments.addAll(bagList);
+        allShipments.addAll(packageList);
+        return allShipments;
     }
 
-    private List<Package> getPackages(ItemDataList itemDataList) {
+    private List<Package> getPackages(ShipmentDataList shipmentDataList) {
         List<Package> packageList = new LinkedList<>();
-        List<ItemDataList.ItemData> packageItems = itemDataList.getItems().stream().
-                filter(itemData -> itemData.getVolumetricWeight() > 0).
+        List<ShipmentDataList.ShipmentData> packageItems = shipmentDataList.getShipments().stream().
+                filter(shipmentData -> shipmentData.getVolumetricWeight() > 0).
                 collect(Collectors.toList());
 
         packageItems.forEach(pi -> {
@@ -48,10 +48,10 @@ public class ItemDataModelConverter implements Converter<ItemDataList, List<Item
         return packageList;
     }
 
-    private List<Bag> getBags(ItemDataList itemDataList) {
+    private List<Bag> getBags(ShipmentDataList shipmentDataList) {
         List<Bag> bagList = new LinkedList<>();
-        List<ItemDataList.ItemData> bagItems = itemDataList.getItems().stream().
-                filter(itemData -> itemData.getVolumetricWeight()==0).
+        List<ShipmentDataList.ShipmentData> bagItems = shipmentDataList.getShipments().stream().
+                filter(shipmentData -> shipmentData.getVolumetricWeight()==0).
                 collect(Collectors.toList());
 
         bagItems.forEach(bi -> {

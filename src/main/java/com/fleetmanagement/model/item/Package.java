@@ -5,7 +5,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Package extends Item {
+public class Package extends Shipment {
 
     private int volumetricWeight;
 

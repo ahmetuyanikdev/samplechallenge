@@ -5,7 +5,7 @@ import javax.persistence.OneToMany;
 import java.util.Set;
 
 @Entity
-public class Bag extends Item {
+public class Bag extends Shipment {
 
     @OneToMany(mappedBy = "bag")
     private Set<Package> packages;

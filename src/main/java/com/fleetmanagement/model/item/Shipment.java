@@ -5,9 +5,9 @@ import com.fleetmanagement.model.DeliveryPoint;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "items")
+@Table(name = "shipments")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-public class Item {
+public class Shipment {
 
     @Id
     private String barcode;
