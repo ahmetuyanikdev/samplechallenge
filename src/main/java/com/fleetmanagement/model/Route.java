@@ -10,9 +10,10 @@ import java.util.Set;
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(unique = true)
     private int id;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id")
     private DeliveryPoint deliveryPoint;
 
@@ -49,6 +50,10 @@ public class Route {
 
     public Set<Shipment> getDeliveries() {
         return deliveries;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void setDeliveries(Set<Shipment> deliveries) {

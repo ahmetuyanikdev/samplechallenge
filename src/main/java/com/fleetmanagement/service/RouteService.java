@@ -7,5 +7,5 @@ import java.util.List;
 
 public interface RouteService {
      List<Route> saveRoutes(RoutePlanData routePlanData);
-     RoutePlanData unloadDeliveries(List<Route> routes);
+     RoutePlanData unloadDeliveries(String plateNumber);
 }

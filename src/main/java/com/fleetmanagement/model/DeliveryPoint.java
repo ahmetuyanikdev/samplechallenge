@@ -1,10 +1,9 @@
 package com.fleetmanagement.model;
 
 import com.fleetmanagement.data.DeliveryPointDataList;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+
+import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "deliverypoints")
@@ -15,8 +14,8 @@ public class DeliveryPoint {
 
     private String type;
 
-    @OneToOne(mappedBy = "deliveryPoint")
-    private Route route;
+    @OneToMany(mappedBy = "deliveryPoint")
+    private Set<Route> routes;
 
     public DeliveryPoint() {
 
@@ -27,12 +26,12 @@ public class DeliveryPoint {
         this.type = deliveryPointData.getType();
     }
 
-    public Route getRoute() {
-        return route;
+    public Set<Route> getRoutes() {
+        return routes;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setRoutes(Set<Route> routes) {
+        this.routes = routes;
     }
 
     public int getId() {

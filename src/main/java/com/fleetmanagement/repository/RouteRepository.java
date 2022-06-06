@@ -3,6 +3,9 @@ package com.fleetmanagement.repository;
 import com.fleetmanagement.model.Route;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface RouteRepository extends JpaRepository<Route,Integer> {
+import java.util.List;
 
+public interface RouteRepository extends JpaRepository<Route,Integer> {
+    List<Route> findByVehicle_plateNumber(String plateNumber);
+    void deleteByVehicle_plateNumber(String plateNumber);
 }

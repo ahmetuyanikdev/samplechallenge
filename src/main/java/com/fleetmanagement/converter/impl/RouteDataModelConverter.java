@@ -72,6 +72,10 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     private void populateDeliveryPointInfo(RouteData routeData, Route route) {
         DeliveryPoint deliveryPoint = deliveryPointRepository.findById(routeData.getDeliveryPoint());
         route.setDeliveryPoint(deliveryPoint);
+        Set<Route> routes = deliveryPoint.getRoutes();
+        routes.add(route);
+        deliveryPoint.setRoutes(routes);
+        deliveryPointRepository.saveAndFlush(deliveryPoint);
     }
 
     private List<Shipment> getShipments(RouteData routeData) {

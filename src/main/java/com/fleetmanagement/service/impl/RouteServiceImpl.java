@@ -1,6 +1,7 @@
 package com.fleetmanagement.service.impl;
 
 import com.fleetmanagement.converter.Converter;
+import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.data.RoutePlanData;
 import com.fleetmanagement.model.Route;
 import com.fleetmanagement.repository.RouteRepository;
@@ -25,24 +26,30 @@ public class RouteServiceImpl implements RouteService {
     @Autowired
     private ShipmentRepository shipmentRepository;
 
+    @Autowired
+    @Qualifier("routeModelDataConverter")
+    private ReverseConverter<List<Route>, RoutePlanData> reverseConverter;
+
     @Override
     public List<Route> saveRoutes(RoutePlanData routePlanData) {
         List<Route> routes = converter.convert(routePlanData);
-        routes = routeRepository.saveAll(routes);
+        routes = routeRepository.saveAllAndFlush(routes);
         updateShipmentsStatuses(routes);
         return routes;
     }
 
+    @Override
+    public RoutePlanData unloadDeliveries(String plateNumber) {
+        List<Route> routes = routeRepository.findByVehicle_plateNumber(plateNumber);
+        return reverseConverter.convert(routes);
+    }
+
     private void updateShipmentsStatuses(List<Route> routes) {
         routes.forEach(route -> {
-            shipmentRepository.saveAll(route.getDeliveries());
+            shipmentRepository.saveAllAndFlush(route.getDeliveries());
         });
     }
 
-    @Override
-    public RoutePlanData unloadDeliveries(List<Route> routes) {
-        return null;
-    }
 
     public void setConverter(Converter<RoutePlanData, List<Route>> converter) {
         this.converter = converter;
@@ -50,6 +57,10 @@ public class RouteServiceImpl implements RouteService {
 
     public void setShipmentRepository(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
+    }
+
+    public void setReverseConverter(ReverseConverter<List<Route>, RoutePlanData> reverseConverter) {
+        this.reverseConverter = reverseConverter;
     }
 
     public void setRouteRepository(RouteRepository routeRepository) {
