@@ -52,6 +52,10 @@ public class DeliveryPointServiceImpl implements DeliveryPointService {
         this.deliveryPointRepository = deliveryPointRepository;
     }
 
+    public void setReverseConverter(ReverseConverter<List<DeliveryPoint>, DeliveryPointDataList> reverseConverter) {
+        this.reverseConverter = reverseConverter;
+    }
+
     public void setConverter(Converter<DeliveryPointDataList, List<DeliveryPoint>> converter) {
         this.converter = converter;
     }

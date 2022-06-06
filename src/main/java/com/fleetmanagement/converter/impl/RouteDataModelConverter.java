@@ -10,9 +10,9 @@ import com.fleetmanagement.model.Route;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.model.shipment.Package;
 import com.fleetmanagement.model.shipment.Shipment;
-import com.fleetmanagement.service.DeliveryPointService;
-import com.fleetmanagement.service.ShipmentService;
-import com.fleetmanagement.service.VehicleService;
+import com.fleetmanagement.repository.DeliveryPointRepository;
+import com.fleetmanagement.repository.ShipmentRepository;
+import com.fleetmanagement.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
@@ -25,13 +25,13 @@ import java.util.stream.Collectors;
 public class RouteDataModelConverter implements Converter<RoutePlanData, List<Route>> {
 
     @Autowired
-    private VehicleService vehicleService;
+    private VehicleRepository vehicleRepository;
 
     @Autowired
-    private DeliveryPointService deliveryPointService;
+    private DeliveryPointRepository deliveryPointRepository;
 
     @Autowired
-    private ShipmentService shipmentService;
+    private ShipmentRepository shipmentRepository;
 
     @Override
     public List<Route> convert(RoutePlanData routePlanData) {
@@ -65,42 +65,30 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     }
 
     private void populateVehicleInfo(RoutePlanData routePlanData, Route route) {
-        Vehicle vehicle = vehicleService.getVehicleByPlateNumber(routePlanData.getPlate());
+        Vehicle vehicle = vehicleRepository.getVehicleByPlateNumber(routePlanData.getPlate());
         route.setVehicle(vehicle);
     }
 
     private void populateDeliveryPointInfo(RouteData routeData, Route route) {
-        DeliveryPoint deliveryPoint = deliveryPointService.getDeliveryPointById(routeData.getDeliveryPoint());
+        DeliveryPoint deliveryPoint = deliveryPointRepository.findById(routeData.getDeliveryPoint());
         route.setDeliveryPoint(deliveryPoint);
     }
 
     private List<Shipment> getShipments(RouteData routeData) {
         Set<String> shipmentBarcodes = routeData.getDeliveries().stream().
                 map(RouteData.ShipmentInformation::getBarcode).collect(Collectors.toSet());
-        return shipmentService.getShipmentByBarcodes(shipmentBarcodes);
+        return shipmentRepository.findAllById(shipmentBarcodes);
     }
 
-    public VehicleService getVehicleService() {
-        return vehicleService;
+    public void setDeliveryPointRepository(DeliveryPointRepository deliveryPointRepository) {
+        this.deliveryPointRepository = deliveryPointRepository;
     }
 
-    public void setVehicleService(VehicleService vehicleService) {
-        this.vehicleService = vehicleService;
+    public void setShipmentRepository(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
     }
 
-    public DeliveryPointService getDeliveryPointService() {
-        return deliveryPointService;
-    }
-
-    public void setDeliveryPointService(DeliveryPointService deliveryPointService) {
-        this.deliveryPointService = deliveryPointService;
-    }
-
-    public ShipmentService getShipmentService() {
-        return shipmentService;
-    }
-
-    public void setShipmentService(ShipmentService shipmentService) {
-        this.shipmentService = shipmentService;
+    public void setVehicleRepository(VehicleRepository vehicleRepository) {
+        this.vehicleRepository = vehicleRepository;
     }
 }

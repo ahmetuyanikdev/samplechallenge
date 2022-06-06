@@ -5,8 +5,6 @@ import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.converter.Converter;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
-
-
 import java.util.List;
 import java.util.stream.Collectors;
 

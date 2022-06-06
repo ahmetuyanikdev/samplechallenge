@@ -1,6 +1,5 @@
 package com.fleetmanagement.converter.impl;
 
-import com.fleetmanagement.constant.PackageStatus;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
