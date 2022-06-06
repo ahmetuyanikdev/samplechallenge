@@ -1,15 +1,11 @@
 package com.fleetmanagement.model;
 
-import com.fleetmanagement.model.shipment.Shipment;
-
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Set;
 
+
 @Entity
-@Table (name = "vehicles")
+@Table(name = "vehicles")
 public class Vehicle {
 
     public Vehicle(String plateNumber) {
@@ -17,14 +13,21 @@ public class Vehicle {
     }
 
     public Vehicle() {
-
     }
 
     @Id
     private String plateNumber;
 
     @OneToMany(mappedBy = "vehicle")
-    private Set<Shipment> shipments;
+    private Set<Route> routes;
+
+    public Set<Route> getRoutes() {
+        return routes;
+    }
+
+    public void setRoutes(Set<Route> routes) {
+        this.routes = routes;
+    }
 
     public String getPlateNumber() {
         return plateNumber;
@@ -32,9 +35,5 @@ public class Vehicle {
 
     public void setPlateNumber(String plateNumber) {
         this.plateNumber = plateNumber;
-    }
-
-    public void setShipments(Set<Shipment> shipments) {
-        this.shipments = shipments;
     }
 }

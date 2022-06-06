@@ -7,5 +7,4 @@ import java.util.List;
 
 public interface ShipmentRepository extends JpaRepository<Shipment,String> {
     List<Shipment> getShipmentsByDeliveryPoint(int id);
-    Shipment getShipmentByBarcode(String barcode);
 }

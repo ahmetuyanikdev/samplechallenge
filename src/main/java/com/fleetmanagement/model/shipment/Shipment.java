@@ -1,6 +1,7 @@
 package com.fleetmanagement.model.shipment;
 
 import com.fleetmanagement.model.DeliveryPoint;
+import com.fleetmanagement.model.Route;
 import com.fleetmanagement.model.Vehicle;
 
 import javax.persistence.*;
@@ -14,12 +15,12 @@ public class Shipment {
     private String barcode;
 
     @OneToOne
-    @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id")
+    @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id",nullable = false)
     private DeliveryPoint deliveryPoint;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_plateNumber",referencedColumnName = "plateNumber",nullable = true)
-    private Vehicle vehicle;
+    @JoinColumn(name = "route_id",referencedColumnName = "id")
+    private Route route;
 
     private int status;
 
@@ -36,20 +37,21 @@ public class Shipment {
         return deliveryPoint;
     }
 
-    public Vehicle getVehicle() {
-        return vehicle;
-    }
 
     public int getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public Route getRoute() {
+        return route;
     }
 
-    public void setVehicle(Vehicle vehicle) {
-        this.vehicle = vehicle;
+    public void setRoute(Route route) {
+        this.route = route;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public void setDeliveryPoint(DeliveryPoint deliveryPoint) {

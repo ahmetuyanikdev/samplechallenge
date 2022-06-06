@@ -1,16 +1,11 @@
 package com.fleetmanagement.model;
 
 import com.fleetmanagement.data.DeliveryPointDataList;
-
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-/*
-Branch	1
-Distribution Center	2
-Transfer Center	3
-*/
 @Entity
 @Table(name = "deliverypoints")
 public class DeliveryPoint {
@@ -20,6 +15,9 @@ public class DeliveryPoint {
 
     private String type;
 
+    @OneToOne(mappedBy = "deliveryPoint")
+    private Route route;
+
     public DeliveryPoint() {
 
     }
@@ -27,6 +25,14 @@ public class DeliveryPoint {
     public DeliveryPoint(DeliveryPointDataList.DeliveryPointData deliveryPointData) {
         this.id = deliveryPointData.getId();
         this.type = deliveryPointData.getType();
+    }
+
+    public Route getRoute() {
+        return route;
+    }
+
+    public void setRoute(Route route) {
+        this.route = route;
     }
 
     public int getId() {

@@ -2,7 +2,7 @@ package com.fleetmanagement.test.service;
 
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
-import com.fleetmanagement.data.vehicle.VehicleDataList;
+import com.fleetmanagement.data.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.repository.VehicleRepository;
 import com.fleetmanagement.service.impl.VehicleServiceImpl;

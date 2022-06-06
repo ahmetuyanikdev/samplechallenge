@@ -1,7 +1,7 @@
 package com.fleetmanagement.converter.impl;
 
 import com.fleetmanagement.converter.ReverseConverter;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.model.shipment.Package;

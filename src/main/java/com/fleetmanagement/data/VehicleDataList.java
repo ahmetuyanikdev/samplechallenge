@@ -1,4 +1,4 @@
-package com.fleetmanagement.data.vehicle;
+package com.fleetmanagement.data;
 
 import java.util.List;
 

@@ -16,4 +16,8 @@ public class Bag extends Shipment {
     public void removeItem(Package pack){
         packages.remove(pack);
     }
+
+    public static Bag getInstance(){
+        return new  Bag();
+    }
 }

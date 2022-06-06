@@ -1,6 +1,6 @@
 package com.fleetmanagement.service.impl;
 
-import com.fleetmanagement.data.vehicle.VehicleDataList;
+import com.fleetmanagement.data.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
@@ -35,6 +35,11 @@ public class VehicleServiceImpl implements VehicleService {
     public VehicleDataList getAllVehicles() {
         List<Vehicle> vehicles = vehicleRepository.findAll();
         return reverseConverter.convert(vehicles);
+    }
+
+    @Override
+    public Vehicle getVehicleByPlateNumber(String plateNumber) {
+        return vehicleRepository.getVehicleByPlateNumber(plateNumber);
     }
 
     public void setVehicleRepository(VehicleRepository vehicleRepository) {

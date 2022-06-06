@@ -3,8 +3,8 @@ package com.fleetmanagement.service.impl;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.converter.impl.ShipmentDataModelConverter;
-import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.repository.ShipmentRepository;
 import com.fleetmanagement.service.ShipmentService;
@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -46,9 +47,10 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public Shipment getShipmentByBarcode(String barcode) {
-        return shipmentRepository.getShipmentByBarcode(barcode);
+    public List<Shipment> getShipmentByBarcodes(Set<String> barcodes) {
+        return shipmentRepository.findAllById(barcodes);
     }
+
 
     @Override
     public ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList) {

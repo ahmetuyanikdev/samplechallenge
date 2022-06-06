@@ -1,14 +1,15 @@
 package com.fleetmanagement.service;
 
-import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.shipment.Shipment;
 
 import java.util.List;
+import java.util.Set;
 
 public interface ShipmentService {
     List<Shipment> saveShipments(ShipmentDataList shipmentDataList);
     ShipmentDataList getAllShipments();
-    Shipment getShipmentByBarcode(String barcode);
+    List<Shipment> getShipmentByBarcodes(Set<String> barcodes);
     ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList);
 }

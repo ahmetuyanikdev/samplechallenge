@@ -2,8 +2,8 @@ package com.fleetmanagement.test.service;
 
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
-import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.DeliveryPoint;
 import com.fleetmanagement.model.shipment.Bag;
 import com.fleetmanagement.model.shipment.Shipment;

@@ -10,7 +10,7 @@ public class Package extends Shipment {
     private int volumetricWeight;
 
     @ManyToOne
-    @JoinColumn(name = "id",nullable = true)
+    @JoinColumn(name = "bag_barcode", referencedColumnName = "barcode")
     private Bag bag;
 
     public int getVolumetricWeight() {
@@ -27,5 +27,9 @@ public class Package extends Shipment {
 
     public void setBag(Bag bag) {
         this.bag = bag;
+    }
+
+    public static Package getInstance() {
+        return new Package();
     }
 }

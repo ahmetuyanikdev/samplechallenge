@@ -1,4 +1,4 @@
-package com.fleetmanagement.data.item;
+package com.fleetmanagement.data.shipment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

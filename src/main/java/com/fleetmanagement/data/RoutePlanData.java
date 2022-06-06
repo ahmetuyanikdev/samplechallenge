@@ -1,17 +1,14 @@
-package com.fleetmanagement.data.vehicle;
-
-
-import com.fleetmanagement.data.RouteData;
+package com.fleetmanagement.data;
 
 import java.util.List;
 
-public class VehiclePlanData {
+public class RoutePlanData {
 
     private String plate;
 
     private List<RouteData> route;
 
-    public VehiclePlanData() {
+    public RoutePlanData() {
     }
 
     public String getPlate() {

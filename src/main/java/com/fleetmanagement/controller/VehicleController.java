@@ -1,6 +1,6 @@
 package com.fleetmanagement.controller;
 
-import com.fleetmanagement.data.vehicle.VehicleDataList;
+import com.fleetmanagement.data.VehicleDataList;
 import com.fleetmanagement.service.VehicleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

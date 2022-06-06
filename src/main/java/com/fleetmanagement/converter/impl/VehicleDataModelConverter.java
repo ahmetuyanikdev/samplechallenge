@@ -1,6 +1,6 @@
 package com.fleetmanagement.converter.impl;
 
-import com.fleetmanagement.data.vehicle.VehicleDataList;
+import com.fleetmanagement.data.VehicleDataList;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.converter.Converter;
 import org.springframework.beans.factory.annotation.Qualifier;

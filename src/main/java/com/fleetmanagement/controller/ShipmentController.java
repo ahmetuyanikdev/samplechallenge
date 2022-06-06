@@ -1,7 +1,7 @@
 package com.fleetmanagement.controller;
 
-import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.service.ShipmentService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

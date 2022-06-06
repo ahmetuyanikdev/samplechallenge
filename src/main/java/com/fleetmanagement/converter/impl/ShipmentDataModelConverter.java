@@ -3,7 +3,7 @@ package com.fleetmanagement.converter.impl;
 import com.fleetmanagement.constant.BagStatus;
 import com.fleetmanagement.constant.PackageStatus;
 import com.fleetmanagement.converter.Converter;
-import com.fleetmanagement.data.item.ShipmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.model.shipment.Package;
@@ -41,14 +41,18 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
                 collect(Collectors.toList());
 
         packageItems.forEach(pi -> {
-            Package aPackage = new Package();
-            aPackage.setBarcode(pi.getBarcode());
-            aPackage.setStatus(PackageStatus.Created.getValue());
-            aPackage.setDeliveryPoint(deliveryPointService.getDeliveryPointById(pi.getDeliveryPoint()));
-            aPackage.setVolumetricWeight(pi.getVolumetricWeight());
+            Package aPackage = Package.getInstance();
+            populatePackage(pi, aPackage);
             packageList.add(aPackage);
         });
         return packageList;
+    }
+
+    private void populatePackage(ShipmentDataList.ShipmentData pi, Package aPackage) {
+        aPackage.setBarcode(pi.getBarcode());
+        aPackage.setStatus(PackageStatus.Created.getValue());
+        aPackage.setDeliveryPoint(deliveryPointService.getDeliveryPointById(pi.getDeliveryPoint()));
+        aPackage.setVolumetricWeight(pi.getVolumetricWeight());
     }
 
     private List<Bag> getBags(ShipmentDataList shipmentDataList) {
@@ -58,13 +62,17 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
                 collect(Collectors.toList());
 
         bagItems.forEach(bi -> {
-            Bag bag = new Bag();
-            bag.setBarcode(bi.getBarcode());
-            bag.setStatus(BagStatus.Created.getValue());
-            bag.setDeliveryPoint(deliveryPointService.getDeliveryPointById(bi.getDeliveryPoint()));
+            Bag bag = Bag.getInstance();
+            populateBag(bi, bag);
             bagList.add(bag);
         });
         return bagList;
+    }
+
+    private void populateBag(ShipmentDataList.ShipmentData bi, Bag bag) {
+        bag.setBarcode(bi.getBarcode());
+        bag.setStatus(BagStatus.Created.getValue());
+        bag.setDeliveryPoint(deliveryPointService.getDeliveryPointById(bi.getDeliveryPoint()));
     }
 
     public void setDeliveryPointService(DeliveryPointService deliveryPointService) {

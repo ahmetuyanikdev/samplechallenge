@@ -2,7 +2,7 @@ package com.fleetmanagement.converter.impl;
 
 import com.fleetmanagement.constant.PackageStatus;
 import com.fleetmanagement.converter.Converter;
-import com.fleetmanagement.data.item.ShipmentAssignmentDataList;
+import com.fleetmanagement.data.shipment.ShipmentAssignmentDataList;
 import com.fleetmanagement.model.shipment.Bag;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.model.shipment.Package;
@@ -44,7 +44,6 @@ public class ShipmentAssignmentDataListModelConverter implements Converter<Shipm
         assignmentDataList.getShipmentAssignments().forEach(shipmentAssignment -> {
             Package pack = packageMap.get(shipmentAssignment.getBarcode());
             pack.setBag(bagMap.get(shipmentAssignment.getBagBarcode()));
-            pack.setStatus(PackageStatus.Loaded_Into_Bag.getValue());
             packageMap.put(shipmentAssignment.getBarcode(),pack);
 
             Bag bag = bagMap.get(shipmentAssignment.getBagBarcode());
