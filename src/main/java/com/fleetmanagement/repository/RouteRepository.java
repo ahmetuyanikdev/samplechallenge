@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RouteRepository extends JpaRepository<Route,Integer> {
-    List<Route> findByVehicle_plateNumber(String plateNumber);
+    List<Route> findAllByVehiclePlateNumber(String plateNumber);
     void deleteByVehicle_plateNumber(String plateNumber);
 }

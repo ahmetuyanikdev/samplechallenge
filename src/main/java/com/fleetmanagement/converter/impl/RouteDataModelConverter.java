@@ -46,12 +46,13 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
         return routes;
     }
 
-    private void populateShipmentStatusInfo(Shipment sh) {
+    private void populateShipmentStatusInfo(Shipment sh, Route route) {
         ShipmentLoadStatus shipmentStatus = (shipment) -> shipment.getClass().equals(Package.class) ?
                 (Objects.nonNull(((Package) shipment).getBag()) ?
                         PackageStatus.Loaded_Into_Bag.getValue() : PackageStatus.Loaded.getValue()) :
                 BagStatus.Loaded.getValue();
         sh.setStatus(shipmentStatus.status(sh));
+        sh.setRoute(route);
     }
 
     interface ShipmentLoadStatus {
@@ -61,7 +62,9 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     private void populateShipments(RouteData routeData, Route route) {
         Set<Shipment> shipmentSet = new HashSet<>(getShipments(routeData));
         route.setDeliveries(shipmentSet);
-        shipmentSet.forEach(this::populateShipmentStatusInfo);
+        shipmentSet.forEach(shipment -> {
+            populateShipmentStatusInfo(shipment,route);
+        });
     }
 
     private void populateVehicleInfo(RoutePlanData routePlanData, Route route) {
@@ -75,7 +78,6 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
         Set<Route> routes = deliveryPoint.getRoutes();
         routes.add(route);
         deliveryPoint.setRoutes(routes);
-        deliveryPointRepository.saveAndFlush(deliveryPoint);
     }
 
     private List<Shipment> getShipments(RouteData routeData) {

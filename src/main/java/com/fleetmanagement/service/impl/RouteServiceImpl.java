@@ -4,6 +4,7 @@ import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.data.RoutePlanData;
 import com.fleetmanagement.model.Route;
+import com.fleetmanagement.repository.DeliveryPointRepository;
 import com.fleetmanagement.repository.RouteRepository;
 import com.fleetmanagement.repository.ShipmentRepository;
 import com.fleetmanagement.service.RouteService;
@@ -27,26 +28,30 @@ public class RouteServiceImpl implements RouteService {
     private ShipmentRepository shipmentRepository;
 
     @Autowired
+    private DeliveryPointRepository deliveryPointRepository;
+
+    @Autowired
     @Qualifier("routeModelDataConverter")
     private ReverseConverter<List<Route>, RoutePlanData> reverseConverter;
 
     @Override
     public List<Route> saveRoutes(RoutePlanData routePlanData) {
         List<Route> routes = converter.convert(routePlanData);
-        routes = routeRepository.saveAllAndFlush(routes);
+        routes = routeRepository.saveAll(routes);
         updateShipmentsStatuses(routes);
         return routes;
     }
 
     @Override
     public RoutePlanData unloadDeliveries(String plateNumber) {
-        List<Route> routes = routeRepository.findByVehicle_plateNumber(plateNumber);
+        List<Route> routes = routeRepository.findAllByVehiclePlateNumber(plateNumber);
         return reverseConverter.convert(routes);
     }
 
     private void updateShipmentsStatuses(List<Route> routes) {
         routes.forEach(route -> {
-            shipmentRepository.saveAllAndFlush(route.getDeliveries());
+            shipmentRepository.saveAll(route.getDeliveries());
+            deliveryPointRepository.save(route.getDeliveryPoint());
         });
     }
 
@@ -61,6 +66,10 @@ public class RouteServiceImpl implements RouteService {
 
     public void setReverseConverter(ReverseConverter<List<Route>, RoutePlanData> reverseConverter) {
         this.reverseConverter = reverseConverter;
+    }
+
+    public void setDeliveryPointRepository(DeliveryPointRepository deliveryPointRepository) {
+        this.deliveryPointRepository = deliveryPointRepository;
     }
 
     public void setRouteRepository(RouteRepository routeRepository) {
