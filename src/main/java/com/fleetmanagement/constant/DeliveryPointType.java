@@ -1,7 +1,17 @@
 package com.fleetmanagement.constant;
 
 public enum DeliveryPointType {
-    Branch,
-    Distribution_Center,
-    Transfer_Center
+    Branch(1),
+    Distribution_Center(2),
+    Transfer_Center(3);
+
+    private final int value;
+
+    DeliveryPointType(int val) {
+        value = val;
+    }
+
+    public int getValue() {
+        return value;
+    }
 }

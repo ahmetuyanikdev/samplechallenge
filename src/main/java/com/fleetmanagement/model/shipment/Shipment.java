@@ -1,8 +1,9 @@
 package com.fleetmanagement.model.shipment;
 
+import com.fleetmanagement.converter.UnloadCalculation;
 import com.fleetmanagement.model.DeliveryPoint;
 import com.fleetmanagement.model.Route;
-import com.fleetmanagement.model.Vehicle;
+
 
 import javax.persistence.*;
 
@@ -15,11 +16,11 @@ public class Shipment {
     private String barcode;
 
     @OneToOne
-    @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "deliveryPoint_id", referencedColumnName = "id", nullable = false)
     private DeliveryPoint deliveryPoint;
 
     @ManyToOne
-    @JoinColumn(name = "route_id",referencedColumnName = "id")
+    @JoinColumn(name = "route_id", referencedColumnName = "id")
     private Route route;
 
     private int status;
@@ -56,5 +57,9 @@ public class Shipment {
 
     public void setDeliveryPoint(DeliveryPoint deliveryPoint) {
         this.deliveryPoint = deliveryPoint;
+    }
+
+    public UnloadCalculation.ShipmentUnloadCalculation getUnloadCalculationMethod() {
+        throw new NoClassDefFoundError();
     }
 }

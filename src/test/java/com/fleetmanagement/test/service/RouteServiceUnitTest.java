@@ -21,7 +21,7 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoJUnitRunner;
 
-import java.io.IOException;
+
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -113,8 +113,6 @@ public class RouteServiceUnitTest {
     public void test_saveRoutes_success() {
         Mockito.when(converter.convert(routePlanData)).thenReturn(routes);
         Mockito.when(routeRepository.saveAll(routes)).thenReturn(routes);
-        Mockito.when(shipmentRepository.saveAll(Collections.singletonList(shipment1))).
-                thenReturn(Collections.singletonList(shipment1));
         Mockito.when(deliveryPointRepository.save(deliveryPoint)).thenReturn(deliveryPoint);
         List<Route> routes = routeService.saveRoutes(routePlanData);
         Assert.assertTrue(routes.stream().anyMatch(route -> route.getVehicle().getPlateNumber().equals("34ABC001")));
@@ -127,7 +125,6 @@ public class RouteServiceUnitTest {
         Mockito.when(routeRepository.saveAll(routes)).thenReturn(routes);
         Mockito.when(shipmentRepository.saveAll(routes.get(0).getDeliveries())).
                 thenThrow(NullPointerException.class);
-        Mockito.when(deliveryPointRepository.save(deliveryPoint)).thenReturn(deliveryPoint);
         try {
             List<Route> routes = routeService.saveRoutes(routePlanData);
         } catch (Exception e) {

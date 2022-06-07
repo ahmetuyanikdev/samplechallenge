@@ -1,18 +1,27 @@
 package com.fleetmanagement.converter.impl;
 
+
 import com.fleetmanagement.converter.ReverseConverter;
+import com.fleetmanagement.converter.UnloadCalculation;
 import com.fleetmanagement.data.RouteData;
 import com.fleetmanagement.data.RoutePlanData;
 import com.fleetmanagement.model.Route;
+import com.fleetmanagement.model.shipment.Shipment;
+import com.fleetmanagement.repository.ShipmentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.LinkedList;
 import java.util.List;
 
+
 @Component
 @Qualifier("routeModelDataConverter")
-public class RouteModelDataConverter implements ReverseConverter<List<Route>,RoutePlanData> {
+public class RouteModelDataConverter implements ReverseConverter<List<Route>, RoutePlanData> {
+
+    @Autowired
+    private ShipmentRepository shipmentRepository;
 
     @Override
     public RoutePlanData convert(List<Route> routes) {
@@ -36,11 +45,20 @@ public class RouteModelDataConverter implements ReverseConverter<List<Route>,Rou
     }
 
     private void populateRouteShipmentInfo(Route route, List<RouteData.ShipmentInformation> shipmentInformations) {
+        List<Shipment> shipments = new LinkedList<>();
         route.getDeliveries().forEach(shipment -> {
+            UnloadCalculation.ShipmentUnloadCalculation unloadCalculation = shipment.getUnloadCalculationMethod();
             RouteData.ShipmentInformation shipmentInformation = new RouteData.ShipmentInformation();
+            shipment.setStatus(unloadCalculation.calculateUnloading(route.getDeliveryPoint()));
             shipmentInformation.setBarcode(shipment.getBarcode());
             shipmentInformation.setState(shipment.getStatus());
             shipmentInformations.add(shipmentInformation);
+            shipments.add(shipment);
         });
+        shipmentRepository.saveAll(shipments);
+    }
+
+    public void setShipmentRepository(ShipmentRepository shipmentRepository) {
+        this.shipmentRepository = shipmentRepository;
     }
 }

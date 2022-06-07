@@ -1,11 +1,15 @@
 package com.fleetmanagement.model.shipment;
 
+import com.fleetmanagement.converter.UnloadCalculation;
+
+
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
-public class Package extends Shipment {
+public class Package extends Shipment implements UnloadCalculation {
 
     private int volumetricWeight;
 
@@ -31,5 +35,15 @@ public class Package extends Shipment {
 
     public static Package getInstance() {
         return new Package();
+    }
+
+    @Override
+    public ShipmentUnloadCalculation returnCalculationMethod() {
+        return Objects.isNull(this.getBag()) ? new PackageUnloadingUnloadCalculation(this) : new PackageAssignedBagUnloadingUnloadCalculation(this);
+    }
+
+    @Override
+    public ShipmentUnloadCalculation getUnloadCalculationMethod() {
+        return returnCalculationMethod();
     }
 }

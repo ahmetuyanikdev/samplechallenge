@@ -33,6 +33,11 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     @Autowired
     private ShipmentRepository shipmentRepository;
 
+    public static ShipmentLoadStatus shipmentStatus = (shipment) -> shipment.getClass().equals(Package.class) ?
+            (Objects.nonNull(((Package) shipment).getBag()) ?
+                    PackageStatus.Loaded_Into_Bag.getValue() : PackageStatus.Loaded.getValue()) :
+            BagStatus.Loaded.getValue();
+
     @Override
     public List<Route> convert(RoutePlanData routePlanData) {
         List<Route> routes = new LinkedList<>();
@@ -47,10 +52,6 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     }
 
     private void populateShipmentStatusInfo(Shipment sh, Route route) {
-        ShipmentLoadStatus shipmentStatus = (shipment) -> shipment.getClass().equals(Package.class) ?
-                (Objects.nonNull(((Package) shipment).getBag()) ?
-                        PackageStatus.Loaded_Into_Bag.getValue() : PackageStatus.Loaded.getValue()) :
-                BagStatus.Loaded.getValue();
         sh.setStatus(shipmentStatus.status(sh));
         sh.setRoute(route);
     }
@@ -63,7 +64,7 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
         Set<Shipment> shipmentSet = new HashSet<>(getShipments(routeData));
         route.setDeliveries(shipmentSet);
         shipmentSet.forEach(shipment -> {
-            populateShipmentStatusInfo(shipment,route);
+            populateShipmentStatusInfo(shipment, route);
         });
     }
 
