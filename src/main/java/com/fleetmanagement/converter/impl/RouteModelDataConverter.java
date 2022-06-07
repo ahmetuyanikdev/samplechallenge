@@ -12,8 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @Component
@@ -45,17 +47,38 @@ public class RouteModelDataConverter implements ReverseConverter<List<Route>, Ro
     }
 
     private void populateRouteShipmentInfo(Route route, List<RouteData.ShipmentInformation> shipmentInformations) {
-        List<Shipment> shipments = new LinkedList<>();
         route.getDeliveries().forEach(shipment -> {
             UnloadCalculation.ShipmentUnloadCalculation unloadCalculation = shipment.getUnloadCalculationMethod();
-            RouteData.ShipmentInformation shipmentInformation = new RouteData.ShipmentInformation();
-            shipment.setStatus(unloadCalculation.calculateUnloading(route.getDeliveryPoint()));
-            shipmentInformation.setBarcode(shipment.getBarcode());
-            shipmentInformation.setState(shipment.getStatus());
+            RouteData.ShipmentInformation shipmentInformation = populateShipmentInformation(route, shipment, unloadCalculation);
             shipmentInformations.add(shipmentInformation);
-            shipments.add(shipment);
         });
-        shipmentRepository.saveAll(shipments);
+        shipmentRepository.saveAll(route.getDeliveries());
+
+        List<String> existingBagsInRoute = route.getDeliveries().stream().filter(shipment -> shipment.getBarcode().
+                startsWith("C")).map(Shipment::getBarcode).collect(Collectors.toList());
+        List<Shipment> bagsOutOfRoute = !existingBagsInRoute.isEmpty() ? getBagShipmentsOutOfRoute(existingBagsInRoute) : Collections.emptyList();
+        if (!bagsOutOfRoute.isEmpty()) {
+            shipmentRepository.saveAll(bagsOutOfRoute);
+        }
+    }
+
+    private List<Shipment> getBagShipmentsOutOfRoute(List<String> existingBagsInRoute) {
+        List<Shipment> bagList = shipmentRepository.findByBarcodeLike("C%");
+        List<Shipment> bagsOutOfRoute = bagList.stream().filter(shipment -> !existingBagsInRoute.
+                contains(shipment.getBarcode())).collect(Collectors.toList());
+        bagsOutOfRoute.forEach(shipment -> {
+            UnloadCalculation.ShipmentUnloadCalculation unloadCalculation = shipment.getUnloadCalculationMethod();
+            shipment.setStatus(unloadCalculation.calculateUnloading(null));
+        });
+        return bagsOutOfRoute;
+    }
+
+    private RouteData.ShipmentInformation populateShipmentInformation(Route route, Shipment shipment, UnloadCalculation.ShipmentUnloadCalculation unloadCalculation) {
+        RouteData.ShipmentInformation shipmentInformation = new RouteData.ShipmentInformation();
+        shipment.setStatus(unloadCalculation.calculateUnloading(route.getDeliveryPoint()));
+        shipmentInformation.setBarcode(shipment.getBarcode());
+        shipmentInformation.setState(shipment.getStatus());
+        return shipmentInformation;
     }
 
     public void setShipmentRepository(ShipmentRepository shipmentRepository) {

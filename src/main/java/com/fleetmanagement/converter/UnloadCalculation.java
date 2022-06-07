@@ -25,7 +25,8 @@ public interface UnloadCalculation {
                     deliveryPoint.getType().equals(DeliveryPointType.Transfer_Center.name()))) {
                 return 4;
             }
-            return 3;
+            boolean allPacksUnloaded = bag.getPackages().stream().allMatch(aPackage -> aPackage.getStatus() == 4);
+            return Boolean.TRUE == allPacksUnloaded ? 4 : 3;
         }
     }
 

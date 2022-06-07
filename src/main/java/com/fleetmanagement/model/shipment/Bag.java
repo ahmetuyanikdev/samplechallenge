@@ -24,6 +24,10 @@ public class Bag extends Shipment implements UnloadCalculation {
         return new Bag();
     }
 
+    public Set<Package> getPackages() {
+        return packages;
+    }
+
     @Override
     public ShipmentUnloadCalculation returnCalculationMethod() {
         return new BagUnloadingUnloadCalculation(this);
