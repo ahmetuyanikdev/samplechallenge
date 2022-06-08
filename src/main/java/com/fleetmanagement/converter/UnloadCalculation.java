@@ -8,6 +8,7 @@ import com.fleetmanagement.model.shipment.Package;
 public interface UnloadCalculation {
 
     ShipmentUnloadCalculation returnCalculationMethod();
+
     PostUpdateShipmentCalculation returnPostUpdateCalculationMethod();
 
     interface ShipmentUnloadCalculation {
@@ -15,7 +16,7 @@ public interface UnloadCalculation {
     }
 
     interface PostUpdateShipmentCalculation {
-        int calculatePostUpdateUnloading();
+        int calculatePostUpdateUnloading(DeliveryPoint deliveryPoint);
     }
 
     class BagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentCalculation {
@@ -31,13 +32,13 @@ public interface UnloadCalculation {
                     deliveryPoint.getType().equals(DeliveryPointType.Transfer_Center.name()))) {
                 return 4;
             }
-            boolean allPacksUnloaded = bag.getPackages().stream().allMatch(aPackage -> aPackage.getStatus() == 4);
-            return Boolean.TRUE == allPacksUnloaded ? 4 : 3;
+            return 3;
         }
 
         @Override
-        public int calculatePostUpdateUnloading() {
-            Boolean bagStatus = this.bag.getPackages().stream().allMatch(pack -> pack.getStatus() == 4);
+        public int calculatePostUpdateUnloading(DeliveryPoint deliveryPoint) {
+            Boolean bagStatus = this.bag.getPackages().stream().allMatch(pack -> pack.getStatus() == 4) &&
+                    this.bag.getDeliveryPoint().equals(deliveryPoint);
             return Boolean.TRUE.equals(bagStatus) ? 4 : bag.getStatus();
         }
     }
@@ -78,8 +79,8 @@ public interface UnloadCalculation {
         }
 
         @Override
-        public int calculatePostUpdateUnloading() {
-            boolean bagStatus = pack.getBag().getStatus() == 4;
+        public int calculatePostUpdateUnloading(DeliveryPoint deliveryPoint) {
+            boolean bagStatus = pack.getBag().getStatus() == 4 && pack.getDeliveryPoint().equals(deliveryPoint);
             return Boolean.TRUE.equals(bagStatus) ? 4 : this.pack.getStatus();
         }
     }
