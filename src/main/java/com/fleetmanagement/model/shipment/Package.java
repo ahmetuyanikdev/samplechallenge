@@ -43,7 +43,17 @@ public class Package extends Shipment implements UnloadCalculation {
     }
 
     @Override
+    public PostUpdateShipmentCalculation returnPostUpdateCalculationMethod() {
+        return Objects.nonNull(this.getBag()) ? new PackageAssignedBagUnloadingUnloadCalculation(this) : null;
+    }
+
+    @Override
     public ShipmentUnloadCalculation getUnloadCalculationMethod() {
         return returnCalculationMethod();
+    }
+
+    @Override
+    public PostUpdateShipmentCalculation getPostUpdateCalculationMethod() {
+        return returnPostUpdateCalculationMethod();
     }
 }

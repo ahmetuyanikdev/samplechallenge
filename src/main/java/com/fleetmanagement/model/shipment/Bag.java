@@ -34,6 +34,16 @@ public class Bag extends Shipment implements UnloadCalculation {
     }
 
     @Override
+    public PostUpdateShipmentCalculation getPostUpdateCalculationMethod() {
+        return returnPostUpdateCalculationMethod();
+    }
+
+    @Override
+    public PostUpdateShipmentCalculation returnPostUpdateCalculationMethod() {
+        return new BagUnloadingUnloadCalculation(this);
+    }
+
+    @Override
     public ShipmentUnloadCalculation getUnloadCalculationMethod() {
         return returnCalculationMethod();
     }

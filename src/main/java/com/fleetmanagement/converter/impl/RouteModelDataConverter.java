@@ -6,15 +6,15 @@ import com.fleetmanagement.converter.UnloadCalculation;
 import com.fleetmanagement.data.RouteData;
 import com.fleetmanagement.data.RoutePlanData;
 import com.fleetmanagement.model.Route;
+import com.fleetmanagement.model.shipment.Bag;
+import com.fleetmanagement.model.shipment.Package;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.repository.ShipmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -53,25 +53,44 @@ public class RouteModelDataConverter implements ReverseConverter<List<Route>, Ro
             shipmentInformations.add(shipmentInformation);
         });
         shipmentRepository.saveAll(route.getDeliveries());
-
-        List<String> existingBagsInRoute = route.getDeliveries().stream().filter(shipment -> shipment.getBarcode().
-                startsWith("C")).map(Shipment::getBarcode).collect(Collectors.toList());
-        List<Shipment> bagsOutOfRoute = !existingBagsInRoute.isEmpty() ? getBagShipmentsOutOfRoute(existingBagsInRoute) : Collections.emptyList();
-        if (!bagsOutOfRoute.isEmpty()) {
-            shipmentRepository.saveAll(bagsOutOfRoute);
-        }
+        postUpdateShipmentUnloading(route);
     }
 
-    private List<Shipment> getBagShipmentsOutOfRoute(List<String> existingBagsInRoute) {
-        List<Shipment> bagList = shipmentRepository.findByBarcodeLike("C%");
-        List<Shipment> bagsOutOfRoute = bagList.stream().filter(shipment -> !existingBagsInRoute.
-                contains(shipment.getBarcode())).collect(Collectors.toList());
-        bagsOutOfRoute.forEach(shipment -> {
-            UnloadCalculation.ShipmentUnloadCalculation unloadCalculation = shipment.getUnloadCalculationMethod();
-            shipment.setStatus(unloadCalculation.calculateUnloading(null));
+    private void postUpdateShipmentUnloading(Route route) {
+        List<Shipment> postUpdateUnloadShipments = new LinkedList<>();
+        updatePostUnloadingStatusesForRelatedBags(route, postUpdateUnloadShipments);
+        updatePostUnloadingStatusesForRelatedPacks(route, postUpdateUnloadShipments);
+        shipmentRepository.saveAll(postUpdateUnloadShipments);
+    }
+
+    private void updatePostUnloadingStatusesForRelatedPacks(Route route, List<Shipment> postUpdateUnloadShipments) {
+        List<Bag> bagShipments = route.getDeliveries().stream().
+                filter(shipment -> shipment.getClass().equals(Bag.class)).
+                map(shipment -> (Bag) shipment).
+                collect(Collectors.toList());
+        bagShipments.forEach(shipment -> {
+            Set<Package> packages = shipment.getPackages();
+            packages.forEach(pack -> {
+                UnloadCalculation.PostUpdateShipmentCalculation postUpdateShipmentCalculation = pack.getPostUpdateCalculationMethod();
+                pack.setStatus(postUpdateShipmentCalculation.calculatePostUpdateUnloading());
+                postUpdateUnloadShipments.add(pack);
+            });
         });
-        return bagsOutOfRoute;
     }
+
+    private void updatePostUnloadingStatusesForRelatedBags(Route route, List<Shipment> postUpdateUnloadShipments) {
+        List<Package> packShipments = route.getDeliveries().stream().
+                filter(shipment -> shipment.getClass().equals(Package.class)).
+                map(shipment -> (Package) shipment).filter(pack -> Objects.nonNull(pack.getBag())).
+                collect(Collectors.toList());
+        packShipments.forEach(shipment -> {
+            Bag bag = shipment.getBag();
+            UnloadCalculation.PostUpdateShipmentCalculation postUpdateShipmentCalculation = bag.getPostUpdateCalculationMethod();
+            bag.setStatus(postUpdateShipmentCalculation.calculatePostUpdateUnloading());
+            postUpdateUnloadShipments.add(bag);
+        });
+    }
+
 
     private RouteData.ShipmentInformation populateShipmentInformation(Route route, Shipment shipment, UnloadCalculation.ShipmentUnloadCalculation unloadCalculation) {
         RouteData.ShipmentInformation shipmentInformation = new RouteData.ShipmentInformation();

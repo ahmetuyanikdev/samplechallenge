@@ -8,13 +8,19 @@ import com.fleetmanagement.model.shipment.Package;
 public interface UnloadCalculation {
 
     ShipmentUnloadCalculation returnCalculationMethod();
+    PostUpdateShipmentCalculation returnPostUpdateCalculationMethod();
 
     interface ShipmentUnloadCalculation {
         int calculateUnloading(DeliveryPoint deliveryPoint);
     }
 
-    class BagUnloadingUnloadCalculation implements ShipmentUnloadCalculation {
+    interface PostUpdateShipmentCalculation {
+        int calculatePostUpdateUnloading();
+    }
+
+    class BagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentCalculation {
         Bag bag;
+
         public BagUnloadingUnloadCalculation(Bag bag) {
             this.bag = bag;
         }
@@ -27,6 +33,12 @@ public interface UnloadCalculation {
             }
             boolean allPacksUnloaded = bag.getPackages().stream().allMatch(aPackage -> aPackage.getStatus() == 4);
             return Boolean.TRUE == allPacksUnloaded ? 4 : 3;
+        }
+
+        @Override
+        public int calculatePostUpdateUnloading() {
+            Boolean bagStatus = this.bag.getPackages().stream().allMatch(pack -> pack.getStatus() == 4);
+            return Boolean.TRUE.equals(bagStatus) ? 4 : bag.getStatus();
         }
     }
 
@@ -48,7 +60,7 @@ public interface UnloadCalculation {
         }
     }
 
-    class PackageAssignedBagUnloadingUnloadCalculation implements ShipmentUnloadCalculation {
+    class PackageAssignedBagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentCalculation {
 
         Package pack;
 
@@ -63,6 +75,12 @@ public interface UnloadCalculation {
                 return 4;
             }
             return 3;
+        }
+
+        @Override
+        public int calculatePostUpdateUnloading() {
+            boolean bagStatus = pack.getBag().getStatus() == 4;
+            return Boolean.TRUE.equals(bagStatus) ? 4 : this.pack.getStatus();
         }
     }
 
