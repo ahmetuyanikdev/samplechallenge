@@ -17,7 +17,7 @@ public class Route {
     @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id")
     private DeliveryPoint deliveryPoint;
 
-    @OneToMany(mappedBy = "route")
+    @ManyToMany
     private Set<Shipment> deliveries;
 
     @ManyToOne

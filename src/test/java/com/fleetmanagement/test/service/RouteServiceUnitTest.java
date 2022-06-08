@@ -92,7 +92,7 @@ public class RouteServiceUnitTest {
         deliveryPoint.setType("Branch");
 
         shipment1 = new Shipment();
-        shipment1.setRoute(route1);
+        shipment1.setRoutes(Collections.singleton(route1));
         shipment1.setStatus(1);
         shipment1.setBarcode("P7988000121");
         shipment1.setDeliveryPoint(deliveryPoint);

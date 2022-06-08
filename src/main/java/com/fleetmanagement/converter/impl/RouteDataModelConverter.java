@@ -53,7 +53,10 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
 
     private void populateShipmentStatusInfo(Shipment sh, Route route) {
         sh.setStatus(shipmentStatus.status(sh));
-        sh.setRoute(route);
+        Set<Route> routes = new HashSet<>();
+        routes.addAll(sh.getRoutes());
+        routes.add(route);
+        sh.setRoutes(routes);
     }
 
     interface ShipmentLoadStatus {

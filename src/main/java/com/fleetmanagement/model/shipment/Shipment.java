@@ -6,6 +6,7 @@ import com.fleetmanagement.model.Route;
 
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "shipments")
@@ -19,9 +20,8 @@ public class Shipment {
     @JoinColumn(name = "deliveryPoint_id", referencedColumnName = "id", nullable = false)
     private DeliveryPoint deliveryPoint;
 
-    @ManyToOne
-    @JoinColumn(name = "route_id", referencedColumnName = "id")
-    private Route route;
+    @ManyToMany(mappedBy = "deliveries")
+    private Set<Route> routes;
 
     private int status;
 
@@ -43,12 +43,12 @@ public class Shipment {
         return status;
     }
 
-    public Route getRoute() {
-        return route;
+    public Set<Route> getRoutes() {
+        return routes;
     }
 
-    public void setRoute(Route route) {
-        this.route = route;
+    public void setRoutes(Set<Route> routes) {
+        this.routes = routes;
     }
 
     public void setStatus(int status) {
