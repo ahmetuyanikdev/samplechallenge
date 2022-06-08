@@ -3,47 +3,42 @@ package com.fleetmanagement.test.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fleetmanagement.FleetManagementApplication;
+import com.fleetmanagement.controller.VehicleController;
 import com.fleetmanagement.data.VehicleDataList;
-import com.fleetmanagement.repository.VehicleRepository;
+import com.fleetmanagement.service.VehicleService;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.MediaType;
-import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.test.web.servlet.MockMvc;
 
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
 import java.util.LinkedList;
 import java.util.List;
-
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest(
-        classes = FleetManagementApplication.class)
-@AutoConfigureMockMvc
-@TestPropertySource(
-        locations = "classpath:application-integrationtest.properties")
-public class VehicleControllerTest {
-
-    private VehicleDataList vehicleDataList;
+public class VehicleControllerTest extends ControllerTest{
 
     @Autowired
     private MockMvc mvc;
 
     @Autowired
-    private VehicleRepository vehicleRepository;
+    private VehicleController controller;
 
+    @Mock
+    private VehicleService vehicleService;
+
+    private VehicleDataList vehicleDataList;
     private ObjectMapper mapper;
     private ObjectWriter writer;
     private String vehiclePostPayload;
+
     @Before
     public void setup() throws Exception {
+        controller.setVehicleService(vehicleService);
         vehicleDataList = new VehicleDataList();
         List<VehicleDataList.VehicleData> vehicles = new LinkedList<>();
         VehicleDataList.VehicleData vehicle = new VehicleDataList.VehicleData();
@@ -61,5 +56,23 @@ public class VehicleControllerTest {
     public void test_saveVehicles_success() throws Exception {
         mvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON).
                 content(vehiclePostPayload).characterEncoding("utf-8")).andExpect(status().isOk()).andReturn();
+    }
+
+    @Test
+    public void test_saveVehicle_WrongBody_fail() throws Exception {
+        vehicleDataList.getVehicles().get(0).setPlateNumber("asdwqw");
+        vehiclePostPayload = writer.writeValueAsString(vehicleDataList);
+        mvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON).
+                content(vehiclePostPayload).characterEncoding("utf-8")).andExpect(status().is4xxClientError()).andReturn();
+    }
+
+    @Test
+    public void test_getVehicle_success() throws Exception {
+        Mockito.when(vehicleService.getAllVehicles()).thenReturn(vehicleDataList);
+        mvc.perform(get("/vehicles").contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).andExpect(content().
+                contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("vehicles[0].plateNumber").value("34TL34"));
+
     }
 }

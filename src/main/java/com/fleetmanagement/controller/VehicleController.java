@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/vehicles")
 public class VehicleController {
@@ -24,7 +26,7 @@ public class VehicleController {
     private RouteService routeService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpStatus createVehicle(@RequestBody VehicleDataList vehicleDataList){
+    public HttpStatus createVehicle(@Valid @RequestBody VehicleDataList vehicleDataList){
         logger.info(vehicleDataList.toString());
         vehicleService.saveVehicles(vehicleDataList);
         return HttpStatus.OK;
