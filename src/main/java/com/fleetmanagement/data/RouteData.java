@@ -1,5 +1,7 @@
 package com.fleetmanagement.data;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class RouteData {
@@ -10,10 +12,14 @@ public class RouteData {
 
     private int deliveryPoint;
 
-    private List<ShipmentInformation> deliveries;
+    private List<@Valid ShipmentInformation> deliveries;
 
     public static class ShipmentInformation {
+
+        @NotNull(message = "Barcode is missing")
         private String barcode;
+
+        @NotNull(message = "State is missing")
         private int state;
 
         public String getBarcode() {

@@ -1,12 +1,17 @@
 package com.fleetmanagement.data;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import java.util.List;
 
 public class RoutePlanData {
 
+    @NotNull(message = "Plate number is missing")
+    @Pattern(regexp = "[0-8][0-9][a-zA-Z]{1,3}[0-9]{2,5}", message = "Incorrect plate number")
     private String plate;
 
-    private List<RouteData> route;
+    private List<@Valid RouteData> route;
 
     public RoutePlanData() {
     }

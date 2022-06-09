@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/routes")
 public class RouteController {
@@ -19,7 +21,7 @@ public class RouteController {
     private RouteService routeService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpStatus createRoutes(@RequestBody RoutePlanData routePlanData){
+    public HttpStatus createRoutes(@Valid @RequestBody RoutePlanData routePlanData){
         logger.info(routePlanData.toString());
         routeService.saveRoutes(routePlanData);
         return HttpStatus.OK;
