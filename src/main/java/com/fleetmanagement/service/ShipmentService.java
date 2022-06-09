@@ -10,6 +10,5 @@ import java.util.Set;
 public interface ShipmentService {
     List<Shipment> saveShipments(ShipmentDataList shipmentDataList);
     ShipmentDataList getAllShipments();
-    List<Shipment> getShipmentByBarcodes(Set<String> barcodes);
     ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList);
 }

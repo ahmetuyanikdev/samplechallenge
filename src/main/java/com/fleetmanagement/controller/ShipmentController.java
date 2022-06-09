@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/shipments")
 public class ShipmentController {
@@ -19,7 +21,7 @@ public class ShipmentController {
     private ShipmentService shipmentService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpStatus createShipment(@RequestBody ShipmentDataList shipmentDataList) {
+    public HttpStatus createShipment(@Valid @RequestBody ShipmentDataList shipmentDataList) {
         logger.info(shipmentDataList.toString());
         shipmentService.saveShipments(shipmentDataList);
         return HttpStatus.OK;
@@ -30,8 +32,8 @@ public class ShipmentController {
         return shipmentService.getAllShipments();
     }
 
-    @RequestMapping(value = "/assignments",method = RequestMethod.POST)
-    public ShipmentDataList assignPackagesToBags(@RequestBody ShipmentAssignmentDataList shipmentAssignmentDataList) {
+    @RequestMapping(value = "/assignments",method = RequestMethod.PATCH)
+    public ShipmentDataList assignPackagesToBags(@Valid @RequestBody ShipmentAssignmentDataList shipmentAssignmentDataList) {
         return shipmentService.assignShipments(shipmentAssignmentDataList);
     }
 

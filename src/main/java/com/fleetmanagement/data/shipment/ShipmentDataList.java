@@ -2,22 +2,32 @@ package com.fleetmanagement.data.shipment;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 
 public class ShipmentDataList {
 
     public ShipmentDataList() {
     }
 
-    private List<ShipmentData> shipments;
+    private List<@Valid ShipmentData> shipments;
 
     public static class ShipmentData {
 
+        @NotNull(message = "Barcode is missing")
         private String barcode;
+        @NotNull(message = "Delivery point is missing")
         private int deliveryPoint;
+
         private int status;
-        @JsonInclude(JsonInclude.Include.NON_DEFAULT)
+
         private int volumetricWeight;
+
+        public boolean isPackage() {
+            return Objects.nonNull(volumetricWeight) && volumetricWeight > 0;
+        }
 
         public String getBarcode() {
             return barcode;

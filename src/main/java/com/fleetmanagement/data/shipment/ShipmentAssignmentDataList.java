@@ -1,17 +1,22 @@
 package com.fleetmanagement.data.shipment;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class ShipmentAssignmentDataList {
 
-    private List<ShipmentAssignment> shipmentAssignments;
+    private List<@Valid ShipmentAssignment> shipmentAssignments;
 
     public ShipmentAssignmentDataList() {
     }
 
     public static class ShipmentAssignment {
 
+        @NotNull(message = "Barcode is missing")
         private String barcode;
+
+        @NotNull(message = "Bag barcode is missing")
         private String bagBarcode;
 
         public String getBarcode() {

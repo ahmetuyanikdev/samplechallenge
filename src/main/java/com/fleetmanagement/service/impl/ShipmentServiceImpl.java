@@ -47,12 +47,6 @@ public class ShipmentServiceImpl implements ShipmentService {
     }
 
     @Override
-    public List<Shipment> getShipmentByBarcodes(Set<String> barcodes) {
-        return shipmentRepository.findAllById(barcodes);
-    }
-
-
-    @Override
     public ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList) {
         List<Shipment> allAssignedShipments = itemAssignmentConverter.convert(assignmentDataList);
         List<Shipment> shipments = shipmentRepository.saveAll(allAssignedShipments);

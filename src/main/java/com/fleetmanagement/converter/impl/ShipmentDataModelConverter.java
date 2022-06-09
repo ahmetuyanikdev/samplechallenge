@@ -37,7 +37,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
     private List<Package> getPackages(ShipmentDataList shipmentDataList) {
         List<Package> packageList = new LinkedList<>();
         List<ShipmentDataList.ShipmentData> packageItems = shipmentDataList.getShipments().stream().
-                filter(shipmentData -> shipmentData.getVolumetricWeight() > 0).
+                filter(ShipmentDataList.ShipmentData::isPackage).
                 collect(Collectors.toList());
 
         packageItems.forEach(pi -> {
@@ -58,7 +58,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
     private List<Bag> getBags(ShipmentDataList shipmentDataList) {
         List<Bag> bagList = new LinkedList<>();
         List<ShipmentDataList.ShipmentData> bagItems = shipmentDataList.getShipments().stream().
-                filter(shipmentData -> shipmentData.getVolumetricWeight()==0).
+                filter(shipmentData -> !shipmentData.isPackage()).
                 collect(Collectors.toList());
 
         bagItems.forEach(bi -> {
