@@ -6,7 +6,7 @@ import com.fleetmanagement.data.shipment.ShipmentDataList;
 import com.fleetmanagement.model.DeliveryPoint;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.service.DeliveryPointService;
-import com.fleetmanagement.service.impl.ShipmentServiceImpl;
+import com.fleetmanagement.service.ShipmentService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,7 +19,7 @@ import java.util.List;
 public class ShipmentServiceIntegrationTest extends ServiceIntegrationTest {
 
     @Autowired
-    private ShipmentServiceImpl shipmentService;
+    private ShipmentService shipmentService;
 
     @Autowired
     private DeliveryPointService deliveryPointService;
@@ -46,10 +46,17 @@ public class ShipmentServiceIntegrationTest extends ServiceIntegrationTest {
     }
 
     @Test
-    public void test_saveShipments() {
+    public void test_0_saveShipments(){
         List<DeliveryPoint> deliveryPoints = deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
         List<Shipment> shipments = shipmentService.saveShipments(shipmentDataList);
         Assert.assertEquals(shipments.get(0).getBarcode(), "C725799");
         Assert.assertEquals(shipments.get(0).getDeliveryPoint().getId(), deliveryPoints.get(0).getId());
+    }
+
+    @Test
+    public void test_1_getAllShipments(){
+        ShipmentDataList shipmentDataList = shipmentService.getAllShipments();
+        Assert.assertFalse(shipmentDataList.getShipments().isEmpty());
+        Assert.assertEquals(shipmentDataList.getShipments().get(0).getBarcode(),"C725799");
     }
 }

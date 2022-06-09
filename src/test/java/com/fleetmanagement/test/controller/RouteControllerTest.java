@@ -1,6 +1,6 @@
 package com.fleetmanagement.test.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
+
 import com.fleetmanagement.controller.RouteController;
 import com.fleetmanagement.data.RouteData;
 import com.fleetmanagement.data.RoutePlanData;
