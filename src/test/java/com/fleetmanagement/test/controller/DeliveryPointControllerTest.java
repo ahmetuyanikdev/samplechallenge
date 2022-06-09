@@ -17,8 +17,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 public class DeliveryPointControllerTest extends ControllerTest {
 
@@ -71,8 +72,16 @@ public class DeliveryPointControllerTest extends ControllerTest {
         deliveryPointDataList.getDeliveryPoints().get(0).setId(1);
         deliveryPointDataList.getDeliveryPoints().get(0).setType(null);
         deliveryPointPostPayload = super.getStringPayload(deliveryPointDataList);
-        Mockito.when(deliveryPointService.saveDeliveryPoints(deliveryPointDataList)).thenReturn(deliveryPoints);
         mvc.perform(post("/delivery-points").contentType(MediaType.APPLICATION_JSON).
                 content(deliveryPointPostPayload).characterEncoding("utf-8")).andExpect(status().is4xxClientError()).andReturn();
+    }
+
+    @Test
+    public void test_getAllDeliveryPoints_success() throws Exception {
+        Mockito.when(deliveryPointService.getAllDeliveryPoints()).thenReturn(deliveryPointDataList);
+        mvc.perform(get("/delivery-points").contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).andExpect(content().
+                contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("deliveryPoints[0].type").value(DeliveryPointType.Branch.name()));
     }
 }
