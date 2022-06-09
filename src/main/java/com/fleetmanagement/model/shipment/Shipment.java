@@ -20,7 +20,7 @@ public class Shipment {
     @JoinColumn(name = "deliveryPoint_id", referencedColumnName = "id", nullable = false)
     private DeliveryPoint deliveryPoint;
 
-    @ManyToMany(mappedBy = "deliveries")
+    @ManyToMany(mappedBy = "deliveries",fetch = FetchType.EAGER)
     private Set<Route> routes;
 
     private int status;

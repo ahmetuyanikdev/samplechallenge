@@ -31,7 +31,7 @@ public class ShipmentServiceUnitTest {
     private Logger logger = LoggerFactory.getLogger(ShipmentServiceUnitTest.class);
 
     @InjectMocks
-    private ShipmentServiceImpl itemService;
+    private ShipmentServiceImpl shipmentService;
 
     @Mock
     private ShipmentRepository shipmentRepository;
@@ -102,7 +102,7 @@ public class ShipmentServiceUnitTest {
     public void test_getAllShipment_success() {
         Mockito.when(shipmentRepository.findAll()).thenReturn(shipments);
         Mockito.when(reverseConverter.convert(shipments)).thenReturn(shipmentDataList);
-        ShipmentDataList list = itemService.getAllShipments();
+        ShipmentDataList list = shipmentService.getAllShipments();
         Assert.assertEquals(list.getShipments().size(), 2);
         Assert.assertTrue(list.getShipments().stream().anyMatch(i -> i.getBarcode().equalsIgnoreCase("P8988000120")));
     }
@@ -111,7 +111,7 @@ public class ShipmentServiceUnitTest {
     public void test_getAllShipments_fail() {
         Mockito.when(shipmentRepository.findAll()).thenThrow(NullPointerException.class);
         try {
-            itemService.getAllShipments();
+            shipmentService.getAllShipments();
         } catch (NullPointerException e) {
             logger.warn("---- Exception during test method invocation ");
         } finally {
@@ -123,14 +123,14 @@ public class ShipmentServiceUnitTest {
     public void test_saveShipment_success() {
         Mockito.when(converter.convert(shipmentDataList)).thenReturn(shipments);
         Mockito.when(shipmentRepository.saveAll(shipments)).thenReturn(shipments);
-        Assert.assertFalse(itemService.saveShipments(shipmentDataList).isEmpty());
+        Assert.assertFalse(shipmentService.saveShipments(shipmentDataList).isEmpty());
     }
 
     @Test
     public void test_saveShipment_fail() {
         Mockito.when(converter.convert(shipmentDataList)).thenThrow(NumberFormatException.class);
         try {
-            itemService.saveShipments(shipmentDataList);
+            shipmentService.saveShipments(shipmentDataList);
         } catch (Exception e) {
             logger.warn("---- Exception during test method invocation ");
         } finally {
@@ -143,7 +143,7 @@ public class ShipmentServiceUnitTest {
         Mockito.when(itemAssignmentConverter.convert(shipmentAssignmentDataList)).thenReturn(shipments);
         Mockito.when(shipmentRepository.saveAll(shipments)).thenReturn(shipments);
         Mockito.when(reverseConverter.convert(shipments)).thenReturn(shipmentDataList);
-        Assert.assertTrue(itemService.assignShipments(shipmentAssignmentDataList).getShipments().stream().anyMatch(item -> item.getBarcode().equals("P8988000120")));
+        Assert.assertTrue(shipmentService.assignShipments(shipmentAssignmentDataList).getShipments().stream().anyMatch(item -> item.getBarcode().equals("P8988000120")));
     }
 
 }

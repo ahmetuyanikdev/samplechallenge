@@ -14,7 +14,7 @@ public class DeliveryPoint {
 
     private String type;
 
-    @OneToMany(mappedBy = "deliveryPoint")
+    @OneToMany(mappedBy = "deliveryPoint",fetch = FetchType.EAGER)
     private Set<Route> routes;
 
     public DeliveryPoint() {

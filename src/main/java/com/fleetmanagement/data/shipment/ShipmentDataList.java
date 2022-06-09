@@ -1,7 +1,6 @@
 package com.fleetmanagement.data.shipment;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -25,6 +24,7 @@ public class ShipmentDataList {
 
         private int volumetricWeight;
 
+        @JsonIgnore
         public boolean isPackage() {
             return Objects.nonNull(volumetricWeight) && volumetricWeight > 0;
         }
