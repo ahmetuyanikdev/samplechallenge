@@ -2,12 +2,14 @@ package com.fleetmanagement.data;
 
 import com.fleetmanagement.model.DeliveryPoint;
 
-import java.io.Serializable;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
-public class DeliveryPointDataList implements Serializable {
+public class DeliveryPointDataList {
 
-    private List<DeliveryPointData> deliveryPoints;
+    private List<@Valid DeliveryPointData> deliveryPoints;
 
     public DeliveryPointDataList() {
 
@@ -24,8 +26,10 @@ public class DeliveryPointDataList implements Serializable {
             type=deliveryPoint.getType();
         }
 
+        @NotNull(message = "delivery point id missing")
         private int id;
 
+        @NotNull(message = "delivery point type missing")
         private String type;
 
         public int getId() {

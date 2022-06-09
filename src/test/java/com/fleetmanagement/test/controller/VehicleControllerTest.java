@@ -1,8 +1,6 @@
 package com.fleetmanagement.test.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
-import com.fasterxml.jackson.databind.SerializationFeature;
+
 import com.fleetmanagement.controller.VehicleController;
 import com.fleetmanagement.data.VehicleDataList;
 import com.fleetmanagement.service.VehicleService;
@@ -32,8 +30,7 @@ public class VehicleControllerTest extends ControllerTest{
     private VehicleService vehicleService;
 
     private VehicleDataList vehicleDataList;
-    private ObjectMapper mapper;
-    private ObjectWriter writer;
+
     private String vehiclePostPayload;
 
     @Before
@@ -45,11 +42,7 @@ public class VehicleControllerTest extends ControllerTest{
         vehicle.setPlateNumber("34TL34");
         vehicles.add(vehicle);
         vehicleDataList.setVehicles(vehicles);
-
-        mapper = new ObjectMapper();
-        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
-        writer = mapper.writer().withDefaultPrettyPrinter();
-        vehiclePostPayload = writer.writeValueAsString(vehicleDataList);
+        vehiclePostPayload = super.getStringPayload(vehicleDataList);
     }
 
     @Test
@@ -61,7 +54,7 @@ public class VehicleControllerTest extends ControllerTest{
     @Test
     public void test_saveVehicle_WrongBody_fail() throws Exception {
         vehicleDataList.getVehicles().get(0).setPlateNumber("asdwqw");
-        vehiclePostPayload = writer.writeValueAsString(vehicleDataList);
+        vehiclePostPayload = super.getStringPayload(vehicleDataList);
         mvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON).
                 content(vehiclePostPayload).characterEncoding("utf-8")).andExpect(status().is4xxClientError()).andReturn();
     }

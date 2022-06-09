@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+
 @RestController
 @RequestMapping(value = "/delivery-points")
 public class DeliveryPointController {
@@ -19,7 +21,7 @@ public class DeliveryPointController {
     private DeliveryPointService deliveryPointService;
 
     @RequestMapping(method = RequestMethod.POST)
-    public HttpStatus createDeliveryPoint(@RequestBody DeliveryPointDataList deliveryPointDataList){
+    public HttpStatus createDeliveryPoint(@Valid @RequestBody DeliveryPointDataList deliveryPointDataList){
        logger.info(deliveryPointDataList.toString());
        deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
        return HttpStatus.OK;

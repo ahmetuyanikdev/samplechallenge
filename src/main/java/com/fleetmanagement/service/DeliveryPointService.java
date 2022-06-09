@@ -7,7 +7,5 @@ import java.util.List;
 
 public interface DeliveryPointService {
     List<DeliveryPoint> saveDeliveryPoints(DeliveryPointDataList deliveryPointDataList);
-    DeliveryPoint getDeliveryPointById(int id);
-    DeliveryPoint getDeliveryPointByType(String type);
     DeliveryPointDataList getAllDeliveryPoints();
 }

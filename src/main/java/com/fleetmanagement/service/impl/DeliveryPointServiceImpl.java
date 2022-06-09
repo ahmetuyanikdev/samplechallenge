@@ -33,16 +33,6 @@ public class DeliveryPointServiceImpl implements DeliveryPointService {
     }
 
     @Override
-    public DeliveryPoint getDeliveryPointById(int id) {
-        return deliveryPointRepository.findById(id);
-    }
-
-    @Override
-    public DeliveryPoint getDeliveryPointByType(String type) {
-        return deliveryPointRepository.findByType(type);
-    }
-
-    @Override
     public DeliveryPointDataList getAllDeliveryPoints() {
         List<DeliveryPoint> deliveryPoints = deliveryPointRepository.findAll();
         return reverseConverter.convert(deliveryPoints);
