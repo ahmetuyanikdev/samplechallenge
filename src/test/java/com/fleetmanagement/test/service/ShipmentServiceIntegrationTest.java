@@ -57,6 +57,7 @@ public class ShipmentServiceIntegrationTest extends ServiceIntegrationTest {
     public void test_1_getAllShipments(){
         ShipmentDataList shipmentDataList = shipmentService.getAllShipments();
         Assert.assertFalse(shipmentDataList.getShipments().isEmpty());
-        Assert.assertEquals(shipmentDataList.getShipments().get(0).getBarcode(),"C725799");
+        Assert.assertTrue(shipmentDataList.getShipments().stream().map(ShipmentDataList.ShipmentData::getBarcode).
+                anyMatch(barcode->barcode.equalsIgnoreCase("C725799")));
     }
 }
