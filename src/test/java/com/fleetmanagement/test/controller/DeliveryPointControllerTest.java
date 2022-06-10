@@ -98,9 +98,10 @@ public class DeliveryPointControllerTest extends ControllerTest {
     public void test_getIncorrectDeliveries_success() throws Exception {
         int id = 1;
         Mockito.when(deliveryPointService.getAllIncorrectlyDeliveriesForDeliveryPoint(id)).thenReturn(incorrectDeliveryDataList);
-        mvc.perform(get("/delivery-points/incorrectShipments/1").contentType(MediaType.APPLICATION_JSON)).
+        mvc.perform(get("/delivery-points/incorrectShipments/" + id).contentType(MediaType.APPLICATION_JSON)).
                 andExpect(status().isOk()).andExpect(content().
                 contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("deliveries[0].barcode").value("P8988000121"));
     }
+
 }
