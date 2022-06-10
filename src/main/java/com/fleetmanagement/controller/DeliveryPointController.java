@@ -1,12 +1,12 @@
 package com.fleetmanagement.controller;
 
 import com.fleetmanagement.data.DeliveryPointDataList;
+import com.fleetmanagement.data.IncorrectDeliveryDataList;
 import com.fleetmanagement.service.DeliveryPointService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -27,9 +27,14 @@ public class DeliveryPointController {
        return HttpStatus.OK;
     }
 
-    @RequestMapping(method = RequestMethod.GET , produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(method = RequestMethod.GET)
     public DeliveryPointDataList getAllDeliveryPoints(){
         return deliveryPointService.getAllDeliveryPoints();
+    }
+
+    @RequestMapping(value = "/incorrectShipments/{deliveryPointId}",method = RequestMethod.GET)
+    public IncorrectDeliveryDataList getIncorrectDeliveriesForDeliveryPoint(@PathVariable int deliveryPointId){
+        return deliveryPointService.getAllIncorrectlyDeliveriesForDeliveryPoint(deliveryPointId);
     }
 
     public void setDeliveryPointService(DeliveryPointService deliveryPointService) {

@@ -3,8 +3,11 @@ package com.fleetmanagement.service.impl;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
 import com.fleetmanagement.data.DeliveryPointDataList;
+import com.fleetmanagement.data.IncorrectDeliveryDataList;
 import com.fleetmanagement.model.DeliveryPoint;
+import com.fleetmanagement.model.IncorrectDelivery;
 import com.fleetmanagement.repository.DeliveryPointRepository;
+import com.fleetmanagement.repository.IncorrectDeliveryRepository;
 import com.fleetmanagement.service.DeliveryPointService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,12 +22,19 @@ public class DeliveryPointServiceImpl implements DeliveryPointService {
     private DeliveryPointRepository deliveryPointRepository;
 
     @Autowired
+    private IncorrectDeliveryRepository incorrectDeliveryRepository;
+
+    @Autowired
     @Qualifier("deliveryPointDataModelConverter")
     private Converter<DeliveryPointDataList, List<DeliveryPoint>> converter;
 
     @Autowired
     @Qualifier("deliveryPointModelDataConverter")
-    private ReverseConverter<List<DeliveryPoint>,DeliveryPointDataList> reverseConverter;
+    private ReverseConverter<List<DeliveryPoint>, DeliveryPointDataList> reverseConverter;
+
+    @Autowired
+    @Qualifier("incorrectDeliveryModelDataConverter")
+    private Converter<List<IncorrectDelivery>, IncorrectDeliveryDataList> incorrectDeliveryDataListConverter;
 
     @Override
     public List<DeliveryPoint> saveDeliveryPoints(DeliveryPointDataList deliveryPointDataList) {
@@ -38,8 +48,18 @@ public class DeliveryPointServiceImpl implements DeliveryPointService {
         return reverseConverter.convert(deliveryPoints);
     }
 
+    @Override
+    public IncorrectDeliveryDataList getAllIncorrectlyDeliveriesForDeliveryPoint(int deliveryPointID) {
+        List<IncorrectDelivery> incorrectDeliveries = incorrectDeliveryRepository.findAllByDeliveryPointId(deliveryPointID);
+        return incorrectDeliveryDataListConverter.convert(incorrectDeliveries);
+    }
+
     public void setDeliveryPointRepository(DeliveryPointRepository deliveryPointRepository) {
         this.deliveryPointRepository = deliveryPointRepository;
+    }
+
+    public void setIncorrectDeliveryRepository(IncorrectDeliveryRepository incorrectDeliveryRepository) {
+        this.incorrectDeliveryRepository = incorrectDeliveryRepository;
     }
 
     public void setReverseConverter(ReverseConverter<List<DeliveryPoint>, DeliveryPointDataList> reverseConverter) {

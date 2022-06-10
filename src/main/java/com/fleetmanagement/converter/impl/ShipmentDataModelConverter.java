@@ -51,7 +51,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
     private void populatePackage(ShipmentDataList.ShipmentData pi, Package aPackage) {
         aPackage.setBarcode(pi.getBarcode());
         aPackage.setStatus(PackageStatus.Created.getValue());
-        aPackage.setDeliveryPoint(deliveryPointRepository.findById(pi.getDeliveryPoint()));
+        aPackage.setDeliveryPoint(deliveryPointRepository.findById(pi.getDeliveryPoint()).get());
         aPackage.setVolumetricWeight(pi.getVolumetricWeight());
     }
 
@@ -72,7 +72,7 @@ public class ShipmentDataModelConverter implements Converter<ShipmentDataList, L
     private void populateBag(ShipmentDataList.ShipmentData bi, Bag bag) {
         bag.setBarcode(bi.getBarcode());
         bag.setStatus(BagStatus.Created.getValue());
-        bag.setDeliveryPoint(deliveryPointRepository.findById(bi.getDeliveryPoint()));
+        bag.setDeliveryPoint(deliveryPointRepository.findById(bi.getDeliveryPoint()).get());
     }
 
     public void setDeliveryPointRepository(DeliveryPointRepository deliveryPointRepository) {

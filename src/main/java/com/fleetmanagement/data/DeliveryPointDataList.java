@@ -3,7 +3,6 @@ package com.fleetmanagement.data;
 import com.fleetmanagement.model.DeliveryPoint;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 

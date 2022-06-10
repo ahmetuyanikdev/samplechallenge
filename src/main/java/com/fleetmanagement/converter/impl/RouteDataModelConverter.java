@@ -6,11 +6,13 @@ import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.data.RouteData;
 import com.fleetmanagement.data.RoutePlanData;
 import com.fleetmanagement.model.DeliveryPoint;
+import com.fleetmanagement.model.IncorrectDelivery;
 import com.fleetmanagement.model.Route;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.model.shipment.Package;
 import com.fleetmanagement.model.shipment.Shipment;
 import com.fleetmanagement.repository.DeliveryPointRepository;
+import com.fleetmanagement.repository.IncorrectDeliveryRepository;
 import com.fleetmanagement.repository.ShipmentRepository;
 import com.fleetmanagement.repository.VehicleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,9 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
 
     @Autowired
     private ShipmentRepository shipmentRepository;
+
+    @Autowired
+    private IncorrectDeliveryRepository incorrectDeliveryRepository;
 
     public static ShipmentLoadStatus shipmentStatus = (shipment) -> shipment.getClass().equals(Package.class) ?
             (Objects.nonNull(((Package) shipment).getBag()) ?
@@ -69,6 +74,19 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
         shipmentSet.forEach(shipment -> {
             populateShipmentStatusInfo(shipment, route);
         });
+        detectAndSaveIncorrectlySendDeliveries(routeData, shipmentSet);
+    }
+
+    private void detectAndSaveIncorrectlySendDeliveries(RouteData routeData, Set<Shipment> shipmentSet) {
+        Set<Shipment> incorrectlyLoadedShipments = shipmentSet.stream().
+                filter(shipment -> shipment.getDeliveryPoint().getId() != routeData.getDeliveryPoint())
+                .collect(Collectors.toSet());
+        List<IncorrectDelivery> incorrectDeliveries = new LinkedList<>();
+        incorrectlyLoadedShipments.forEach(shipment -> {
+            IncorrectDelivery incorrectDelivery = IncorrectDelivery.getInstance(routeData.getDeliveryPoint(), shipment.getBarcode());
+            incorrectDeliveries.add(incorrectDelivery);
+        });
+        incorrectDeliveryRepository.saveAll(incorrectDeliveries);
     }
 
     private void populateVehicleInfo(RoutePlanData routePlanData, Route route) {
@@ -77,7 +95,7 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
     }
 
     private void populateDeliveryPointInfo(RouteData routeData, Route route) {
-        DeliveryPoint deliveryPoint = deliveryPointRepository.findById(routeData.getDeliveryPoint());
+        DeliveryPoint deliveryPoint = deliveryPointRepository.findById(routeData.getDeliveryPoint()).get();
         route.setDeliveryPoint(deliveryPoint);
         Set<Route> routes = deliveryPoint.getRoutes();
         routes.add(route);
@@ -96,6 +114,10 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
 
     public void setShipmentRepository(ShipmentRepository shipmentRepository) {
         this.shipmentRepository = shipmentRepository;
+    }
+
+    public void setIncorrectDeliveryRepository(IncorrectDeliveryRepository incorrectDeliveryRepository) {
+        this.incorrectDeliveryRepository = incorrectDeliveryRepository;
     }
 
     public void setVehicleRepository(VehicleRepository vehicleRepository) {

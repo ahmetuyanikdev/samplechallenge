@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fleetmanagement.constant.DeliveryPointType;
 import com.fleetmanagement.controller.DeliveryPointController;
 import com.fleetmanagement.data.DeliveryPointDataList;
+import com.fleetmanagement.data.IncorrectDeliveryDataList;
 import com.fleetmanagement.model.DeliveryPoint;
 import com.fleetmanagement.service.DeliveryPointService;
 import org.junit.Before;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -38,11 +40,14 @@ public class DeliveryPointControllerTest extends ControllerTest {
 
     private String deliveryPointPostPayload;
 
+    private IncorrectDeliveryDataList incorrectDeliveryDataList;
+
     @Before
     public void setup() throws JsonProcessingException {
         deliveryPointDataList = new DeliveryPointDataList();
         deliveryPointController.setDeliveryPointService(deliveryPointService);
         deliveryPoints = new LinkedList<>();
+        incorrectDeliveryDataList = new IncorrectDeliveryDataList();
 
         DeliveryPointDataList.DeliveryPointData deliveryPointData = new DeliveryPointDataList.DeliveryPointData();
         deliveryPointData.setType(DeliveryPointType.Branch.name());
@@ -58,6 +63,10 @@ public class DeliveryPointControllerTest extends ControllerTest {
         deliveryPointDataList.setDeliveryPoints(dataList);
         deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
         deliveryPointPostPayload = super.getStringPayload(deliveryPointDataList);
+
+        incorrectDeliveryDataList.setDeliveryPoint(1);
+        IncorrectDeliveryDataList.ShipmentData shipmentData = new IncorrectDeliveryDataList.ShipmentData("P8988000121");
+        incorrectDeliveryDataList.setDeliveries(Collections.singletonList(shipmentData));
     }
 
     @Test
@@ -83,5 +92,15 @@ public class DeliveryPointControllerTest extends ControllerTest {
                 andExpect(status().isOk()).andExpect(content().
                 contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("deliveryPoints[0].type").value(DeliveryPointType.Branch.name()));
+    }
+
+    @Test
+    public void test_getIncorrectDeliveries_success() throws Exception {
+        int id = 1;
+        Mockito.when(deliveryPointService.getAllIncorrectlyDeliveriesForDeliveryPoint(id)).thenReturn(incorrectDeliveryDataList);
+        mvc.perform(get("/delivery-points/incorrectShipments/1").contentType(MediaType.APPLICATION_JSON)).
+                andExpect(status().isOk()).andExpect(content().
+                contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(jsonPath("deliveries[0].barcode").value("P8988000121"));
     }
 }
