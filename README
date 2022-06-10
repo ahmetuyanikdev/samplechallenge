@@ -1,0 +1,16 @@
+Follow these commands to build and run this application.
+
+/* pulling all dependencies, compiling and packaging. You need to navigate to the same directory where pom.xml located*/
+1. mvn clean install
+
+/* running all tests, reports can be found under /target/surefire-reports */
+2. mvn test
+
+/* build image with name fleetmanagement. */
+3. docker build -t fleetmanagement .
+
+/* after image created message, list all images to make sure fleetmanagement image has been created*/
+4. docker images
+
+/* Start the application container accessible on localhost:8080 */
+5. docker run -p 8080:8080 fleetmanagement
