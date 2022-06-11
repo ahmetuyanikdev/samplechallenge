@@ -14,3 +14,6 @@ Follow these commands to build and run this application.
 
 /* Start the application container accessible on localhost:8080 */
 5. docker run -p 8080:8080 fleetmanagement
+
+You can find sample postman collection in project folder
+Happy testing !

@@ -1,6 +1,7 @@
 package com.fleetmanagement.model;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "incorrectdeliveries")
@@ -11,8 +12,10 @@ public class IncorrectDelivery {
     @Column(unique = true)
     private int id;
 
+    @NotNull
     private int deliveryPointId;
 
+    @NotNull
     private String barcode;
 
     public int getDeliveryPointId() {

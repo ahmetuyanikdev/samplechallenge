@@ -73,7 +73,7 @@ public class DeliveryPointControllerTest extends ControllerTest {
     public void test_saveDeliveryPoints_success() throws Exception {
         Mockito.when(deliveryPointService.saveDeliveryPoints(deliveryPointDataList)).thenReturn(deliveryPoints);
         mvc.perform(post("/delivery-points").contentType(MediaType.APPLICATION_JSON).
-                content(deliveryPointPostPayload).characterEncoding("utf-8")).andExpect(status().isOk()).andReturn();
+                content(deliveryPointPostPayload).characterEncoding("utf-8")).andExpect(status().is2xxSuccessful()).andReturn();
     }
 
     @Test

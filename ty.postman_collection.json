@@ -1,0 +1,337 @@
+{
+	"info": {
+		"_postman_id": "44f45a0e-b2cc-496c-b703-548f966d82e3",
+		"name": "ty",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "vehicle-post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"vehicles\":[{\n        \"plateNumber\":\"34TL34\"\n    }]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vehicles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vehicle-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vehicles",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vehicles"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deliverypoint-post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"deliveryPoints\":[{\n        \"id\":\"1\",\n        \"type\":\"Branch\"\n    },\n    {\n        \"id\":\"2\",\n        \"type\":\"Distribution_Center\"\n    },\n    {\n        \"id\":\"3\",\n        \"type\":\"Transfer_Center\"\n    }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/delivery-points",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delivery-points"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deliverypoint-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/delivery-points",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delivery-points"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "bag-shipment-post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipments\":[{\n        \"barcode\":\"C725799\",\n        \"deliveryPoint\":\"2\"\n    },\n    {\n        \"barcode\":\"C725800\",\n        \"deliveryPoint\":\"3\"\n    }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/shipments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"shipments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "package-shipment-post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipments\":[{\n        \"barcode\":\"P7988000121\",\n        \"deliveryPoint\":\"1\",\n        \"volumetricWeight\":\"5\"\n    },\n    {\n        \"barcode\":\"P7988000122\",\n        \"deliveryPoint\":\"1\",\n        \"volumetricWeight\":\"5\"\n    },\n    {\n        \"barcode\":\"P7988000123\",\n        \"deliveryPoint\":\"1\",\n        \"volumetricWeight\":\"9\"\n    },\n    {\n        \"barcode\":\"P8988000120\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"33\"\n    },\n    {\n        \"barcode\":\"P8988000121\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"17\"\n    },\n    {\n        \"barcode\":\"P8988000122\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"26\"\n    },\n    {\n        \"barcode\":\"P8988000123\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"35\"\n    },\n    {\n        \"barcode\":\"P8988000124\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"1\"\n    },\n    {\n        \"barcode\":\"P8988000125\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"200\"\n    },\n    {\n        \"barcode\":\"P8988000126\",\n        \"deliveryPoint\":\"2\",\n        \"volumetricWeight\":\"50\"\n    },\n    {\n        \"barcode\":\"P9988000126\",\n        \"deliveryPoint\":\"3\",\n        \"volumetricWeight\":\"15\"\n    },\n    {\n        \"barcode\":\"P9988000127\",\n        \"deliveryPoint\":\"3\",\n        \"volumetricWeight\":\"16\"\n    },\n    {\n        \"barcode\":\"P9988000128\",\n        \"deliveryPoint\":\"3\",\n        \"volumetricWeight\":\"55\"\n    },\n    {\n        \"barcode\":\"P9988000129\",\n        \"deliveryPoint\":\"3\",\n        \"volumetricWeight\":\"28\"\n    },\n    {\n        \"barcode\":\"P9988000130\",\n        \"deliveryPoint\":\"3\",\n        \"volumetricWeight\":\"17\"\n    }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/shipments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"shipments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "package-assignment-patch",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"shipmentAssignments\":[{\n        \"barcode\":\"P8988000122\",\n        \"bagBarcode\":\"C725799\"\n    },\n    {\n        \"barcode\":\"P8988000126\",\n        \"bagBarcode\":\"C725799\"\n    },\n    {\n        \"barcode\":\"P9988000128\",\n        \"bagBarcode\":\"C725800\"\n    },\n    {\n        \"barcode\":\"P9988000129\",\n        \"bagBarcode\":\"C725800\"\n    }\n    ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/shipments/assignments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"shipments",
+						"assignments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "shipments-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/shipments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"shipments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "route-post",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"plate\": \"34TL34\",\n  \"route\": [\n    {\n      \"deliveryPoint\": 1,\n      \"deliveries\": [\n        {\"barcode\": \"P7988000121\"},\n        {\"barcode\": \"P7988000122\"},\n        {\"barcode\": \"P7988000123\"},\n        {\"barcode\": \"P8988000121\"},\n        {\"barcode\": \"C725799\"}\n      ]\n    },\n    {\n      \"deliveryPoint\": 2,\n      \"deliveries\": [\n        {\"barcode\": \"P8988000123\"},\n        {\"barcode\": \"P8988000124\"},\n        {\"barcode\": \"P8988000125\"},\n        {\"barcode\": \"C725799\"}\n      ]\n    },\n    {\n      \"deliveryPoint\": 3,\n      \"deliveries\": [\n        {\"barcode\": \"P9988000126\"},\n        {\"barcode\": \"P9988000127\"},\n        {\"barcode\": \"P9988000128\"},\n        {\"barcode\": \"P9988000129\"},\n        {\"barcode\": \"P9988000130\"}\n      ]\n    }\n  ]\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/routes",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"routes"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "vehicle-unload-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/vehicles/unload/34TL34",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"vehicles",
+						"unload",
+						"34TL34"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "deliverypoint-incorrectshipments-get",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/delivery-points/incorrectShipments/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"delivery-points",
+						"incorrectShipments",
+						"1"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

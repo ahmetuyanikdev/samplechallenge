@@ -48,7 +48,7 @@ public class VehicleControllerTest extends ControllerTest{
     @Test
     public void test_saveVehicles_success() throws Exception {
         mvc.perform(post("/vehicles").contentType(MediaType.APPLICATION_JSON).
-                content(vehiclePostPayload).characterEncoding("utf-8")).andExpect(status().isOk()).andReturn();
+                content(vehiclePostPayload).characterEncoding("utf-8")).andExpect(status().is2xxSuccessful()).andReturn();
     }
 
     @Test

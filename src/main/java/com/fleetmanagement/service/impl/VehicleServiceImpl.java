@@ -1,6 +1,7 @@
 package com.fleetmanagement.service.impl;
 
 import com.fleetmanagement.data.VehicleDataList;
+import com.fleetmanagement.exception.NoDataFoundException;
 import com.fleetmanagement.model.Vehicle;
 import com.fleetmanagement.converter.Converter;
 import com.fleetmanagement.converter.ReverseConverter;
@@ -8,6 +9,7 @@ import com.fleetmanagement.repository.VehicleRepository;
 import com.fleetmanagement.service.VehicleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class VehicleServiceImpl implements VehicleService {
 
     @Override
     public Vehicle getVehicleByPlateNumber(String plateNumber) {
-        return vehicleRepository.getVehicleByPlateNumber(plateNumber);
+        return vehicleRepository.findById(plateNumber).get();
     }
 
     public void setVehicleRepository(VehicleRepository vehicleRepository) {

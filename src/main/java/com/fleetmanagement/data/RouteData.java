@@ -10,16 +10,16 @@ public class RouteData {
 
     }
 
+    @NotNull(message = "{route.delivery-point.missing}")
     private int deliveryPoint;
 
     private List<@Valid ShipmentInformation> deliveries;
 
     public static class ShipmentInformation {
 
-        @NotNull(message = "Barcode is missing")
+        @NotNull(message = "{route.barcode.missing}")
         private String barcode;
 
-        @NotNull(message = "State is missing")
         private int state;
 
         public String getBarcode() {

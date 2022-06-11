@@ -14,21 +14,22 @@ public class Route {
     private int id;
 
     @ManyToOne
-    @JoinColumn(name = "deliveryPoint_id",referencedColumnName = "id")
+    @JoinColumn(name = "deliveryPoint_id", referencedColumnName = "id", nullable = false)
     private DeliveryPoint deliveryPoint;
 
     @ManyToMany
+    @Column(nullable = false)
     private Set<Shipment> deliveries;
 
     @ManyToOne
-    @JoinColumn(name = "vehicle_plateNumber",referencedColumnName = "plateNumber")
+    @JoinColumn(name = "vehicle_plateNumber", referencedColumnName = "plateNumber", nullable = false)
     private Vehicle vehicle;
 
     public void setDeliveryPoint(DeliveryPoint deliveryPoint) {
         this.deliveryPoint = deliveryPoint;
     }
 
-    public static Route getInstance(){
+    public static Route getInstance() {
         return new Route();
     }
 

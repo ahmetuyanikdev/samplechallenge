@@ -15,9 +15,9 @@ public class ShipmentDataList {
 
     public static class ShipmentData {
 
-        @NotNull(message = "Barcode is missing")
+        @NotNull(message = "{shipment.barcode.missing}")
         private String barcode;
-        @NotNull(message = "Delivery point is missing")
+        @NotNull(message = "{shipment.delivery-point.missing}")
         private int deliveryPoint;
 
         private int status;

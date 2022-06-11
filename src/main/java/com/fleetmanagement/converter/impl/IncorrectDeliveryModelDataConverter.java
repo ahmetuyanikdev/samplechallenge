@@ -14,6 +14,11 @@ import java.util.stream.Collectors;
 public class IncorrectDeliveryModelDataConverter implements Converter<List<IncorrectDelivery>, IncorrectDeliveryDataList> {
 
     @Override
+    public boolean violation(List<IncorrectDelivery> incorrectDeliveries) {
+        return false;
+    }
+
+    @Override
     public IncorrectDeliveryDataList convert(List<IncorrectDelivery> incorrectDeliveries) {
         IncorrectDeliveryDataList incorrectDeliveryDataList = new IncorrectDeliveryDataList();
         incorrectDeliveryDataList.setDeliveryPoint(incorrectDeliveries.iterator().next().getDeliveryPointId());

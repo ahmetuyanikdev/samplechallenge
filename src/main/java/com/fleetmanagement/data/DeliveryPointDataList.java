@@ -25,10 +25,10 @@ public class DeliveryPointDataList {
             type=deliveryPoint.getType();
         }
 
-        @NotNull(message = "delivery point id missing")
+        @NotNull(message = "{delivery-point.id.missing}")
         private int id;
 
-        @NotNull(message = "delivery point type missing")
+        @NotNull(message = "{delivery-point.type.missing}")
         private String type;
 
         public int getId() {

@@ -92,7 +92,7 @@ public class ShipmentControllerTest extends ControllerTest {
         Mockito.when(shipmentService.saveShipments(shipmentDataList)).thenReturn(shipments);
         String shipmentPostPayload = super.getStringPayload(shipmentDataList);
         mvc.perform(post("/shipments").contentType(MediaType.APPLICATION_JSON).
-                content(shipmentPostPayload).characterEncoding("utf-8")).andExpect(status().isOk()).andReturn();
+                content(shipmentPostPayload).characterEncoding("utf-8")).andExpect(status().is2xxSuccessful()).andReturn();
     }
 
     @Test

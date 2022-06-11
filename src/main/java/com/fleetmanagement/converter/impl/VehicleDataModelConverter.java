@@ -13,6 +13,11 @@ import java.util.stream.Collectors;
 public class VehicleDataModelConverter implements Converter<VehicleDataList, List<Vehicle>> {
 
     @Override
+    public boolean violation(VehicleDataList vehicleDataList) {
+        return false;
+    }
+
+    @Override
     public List<Vehicle> convert(VehicleDataList data) {
         List<String> plateNumberList = data.getVehicles().stream()
                 .map(VehicleDataList.VehicleData::getPlateNumber).collect(Collectors.toList());

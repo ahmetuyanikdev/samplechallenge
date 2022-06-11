@@ -7,8 +7,8 @@ import java.util.List;
 
 public class RoutePlanData {
 
-    @NotNull(message = "Plate number is missing")
-    @Pattern(regexp = "[0-8][0-9][a-zA-Z]{1,3}[0-9]{2,5}", message = "Incorrect plate number")
+    @NotNull(message = "{route.plate.number.missing}")
+    @Pattern(regexp = "[0-8][0-9][a-zA-Z]{1,3}[0-9]{2,5}", message = "{vehicle.plate.number.incorrect}")
     private String plate;
 
     private List<@Valid RouteData> route;

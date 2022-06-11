@@ -64,7 +64,7 @@ public class RouteControllerTest extends ControllerTest {
         String routePayloadPost = super.getStringPayload(routePlanData);
         Mockito.when(routeService.saveRoutes(routePlanData)).thenReturn(routes);
         mvc.perform(post("/routes").contentType(MediaType.APPLICATION_JSON).
-                content(routePayloadPost).characterEncoding("utf-8")).andExpect(status().isOk()).andReturn();
+                content(routePayloadPost).characterEncoding("utf-8")).andExpect(status().is2xxSuccessful()).andReturn();
 
     }
 

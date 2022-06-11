@@ -25,6 +25,11 @@ public class ShipmentAssignmentDataListModelConverter implements Converter<Shipm
     private ShipmentRepository shipmentRepository;
 
     @Override
+    public boolean violation(ShipmentAssignmentDataList shipmentAssignmentDataList) {
+        return false;
+    }
+
+    @Override
     public List<Shipment> convert(ShipmentAssignmentDataList assignmentDataList) {
 
         Set<String> bagBarcodes = assignmentDataList.getShipmentAssignments().
