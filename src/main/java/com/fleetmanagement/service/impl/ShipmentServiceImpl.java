@@ -12,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.List;
-import java.util.Set;
 
 
 @Service
@@ -31,7 +30,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Autowired
     @Qualifier("shipmentAssignmentDataListModelConverter")
-    private Converter<ShipmentAssignmentDataList, List<Shipment>> itemAssignmentConverter;
+    private Converter<ShipmentAssignmentDataList, List<Shipment>> shipmentAssignmentConverter;
 
 
     @Override
@@ -48,7 +47,7 @@ public class ShipmentServiceImpl implements ShipmentService {
 
     @Override
     public ShipmentDataList assignShipments(ShipmentAssignmentDataList assignmentDataList) {
-        List<Shipment> allAssignedShipments = itemAssignmentConverter.convert(assignmentDataList);
+        List<Shipment> allAssignedShipments = shipmentAssignmentConverter.convert(assignmentDataList);
         List<Shipment> shipments = shipmentRepository.saveAll(allAssignedShipments);
         return reverseConverter.convert(shipments);
     }
@@ -65,7 +64,7 @@ public class ShipmentServiceImpl implements ShipmentService {
         this.converter = converter;
     }
 
-    public void setItemAssignmentConverter(Converter<ShipmentAssignmentDataList, List<Shipment>> itemAssignmentConverter) {
-        this.itemAssignmentConverter = itemAssignmentConverter;
+    public void setShipmentAssignmentConverter(Converter<ShipmentAssignmentDataList, List<Shipment>> shipmentAssignmentConverter) {
+        this.shipmentAssignmentConverter = shipmentAssignmentConverter;
     }
 }

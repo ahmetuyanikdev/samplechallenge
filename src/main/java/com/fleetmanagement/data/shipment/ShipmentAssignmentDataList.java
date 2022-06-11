@@ -13,10 +13,10 @@ public class ShipmentAssignmentDataList {
 
     public static class ShipmentAssignment {
 
-        @NotNull(message = "Barcode is missing")
+        @NotNull(message = "{shipment.barcode.missing}")
         private String barcode;
 
-        @NotNull(message = "Bag barcode is missing")
+        @NotNull(message = "{shipment.barcode.missing}")
         private String bagBarcode;
 
         public String getBarcode() {
