@@ -71,8 +71,8 @@ public class RouteModelDataConverter implements ReverseConverter<List<Route>, Ro
         bagShipments.forEach(shipment -> {
             Set<Package> packages = shipment.getPackages();
             packages.forEach(pack -> {
-                UnloadCalculation.PostUpdateShipmentCalculation postUpdateShipmentCalculation = pack.getPostUpdateCalculationMethod();
-                pack.setStatus(postUpdateShipmentCalculation.calculatePostUpdateUnloading(route.getDeliveryPoint()));
+                UnloadCalculation.PostUpdateShipmentUnloadCalculation postUpdateShipmentUnloadCalculation = pack.getPostUpdateCalculationMethod();
+                pack.setStatus(postUpdateShipmentUnloadCalculation.calculatePostUpdateUnloading(route.getDeliveryPoint()));
                 postUpdateUnloadShipments.add(pack);
             });
         });
@@ -85,8 +85,8 @@ public class RouteModelDataConverter implements ReverseConverter<List<Route>, Ro
                 collect(Collectors.toList());
         packShipments.forEach(shipment -> {
             Bag bag = shipment.getBag();
-            UnloadCalculation.PostUpdateShipmentCalculation postUpdateShipmentCalculation = bag.getPostUpdateCalculationMethod();
-            bag.setStatus(postUpdateShipmentCalculation.calculatePostUpdateUnloading(route.getDeliveryPoint()));
+            UnloadCalculation.PostUpdateShipmentUnloadCalculation postUpdateShipmentUnloadCalculation = bag.getPostUpdateCalculationMethod();
+            bag.setStatus(postUpdateShipmentUnloadCalculation.calculatePostUpdateUnloading(route.getDeliveryPoint()));
             postUpdateUnloadShipments.add(bag);
         });
     }

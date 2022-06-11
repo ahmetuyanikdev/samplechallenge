@@ -98,20 +98,20 @@ public class RouteServiceIntegrationTest extends ServiceIntegrationTest {
     }
 
     @Test
-    public void test_1_saveVehicle() {
+    public void test_01_saveVehicle() {
         List<Vehicle> vehicles = vehicleService.saveVehicles(vehicleDataList);
         Assert.assertEquals(vehicles.get(0).getPlateNumber(), "34TL34");
     }
 
     @Test
-    public void test_2_deliveryPoint() {
+    public void test_02_deliveryPoint() {
         List<DeliveryPoint> deliveryPoints = deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
         Assert.assertEquals(deliveryPoints.get(0).getType(), (DeliveryPointType.Branch.name()));
 
     }
 
     @Test
-    public void test_3_saveRoute() {
+    public void test_03_saveRoute() {
 
         List<Shipment> shipments = shipmentService.saveShipments(shipmentDataList);
         Assert.assertEquals(shipments.size(), 2);

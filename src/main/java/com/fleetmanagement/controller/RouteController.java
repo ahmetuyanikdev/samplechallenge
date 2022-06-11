@@ -28,7 +28,7 @@ public class RouteController {
 
     @RequestMapping(method = RequestMethod.POST)
     public ResponseEntity createRoutes(@Valid @RequestBody RoutePlanData routePlanData) {
-        logger.info(routePlanData.toString());
+        logger.info("--creating routes--");
         routeService.saveRoutes(routePlanData);
         return ResponseEntity.status(HttpStatus.CREATED).body(messageSource.getMessage("route.created", null, Locale.ENGLISH));
     }

@@ -9,17 +9,17 @@ public interface UnloadCalculation {
 
     ShipmentUnloadCalculation returnCalculationMethod();
 
-    PostUpdateShipmentCalculation returnPostUpdateCalculationMethod();
+    PostUpdateShipmentUnloadCalculation returnPostUpdateCalculationMethod();
 
     interface ShipmentUnloadCalculation {
         int calculateUnloading(DeliveryPoint deliveryPoint);
     }
 
-    interface PostUpdateShipmentCalculation {
+    interface PostUpdateShipmentUnloadCalculation {
         int calculatePostUpdateUnloading(DeliveryPoint deliveryPoint);
     }
 
-    class BagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentCalculation {
+    class BagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentUnloadCalculation {
         Bag bag;
 
         public BagUnloadingUnloadCalculation(Bag bag) {
@@ -61,7 +61,7 @@ public interface UnloadCalculation {
         }
     }
 
-    class PackageAssignedBagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentCalculation {
+    class PackageAssignedBagUnloadingUnloadCalculation implements ShipmentUnloadCalculation, PostUpdateShipmentUnloadCalculation {
 
         Package pack;
 

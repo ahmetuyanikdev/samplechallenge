@@ -60,10 +60,10 @@ public class Shipment {
     }
 
     public UnloadCalculation.ShipmentUnloadCalculation getUnloadCalculationMethod() {
-        throw new NoClassDefFoundError();
+        throw new UnsupportedOperationException();
     }
 
-    public UnloadCalculation.PostUpdateShipmentCalculation getPostUpdateCalculationMethod() {
-        throw new NoClassDefFoundError();
+    public UnloadCalculation.PostUpdateShipmentUnloadCalculation getPostUpdateCalculationMethod() {
+        throw new UnsupportedOperationException();
     }
 }

@@ -31,13 +31,13 @@ public class VehicleServiceIntegrationTest extends ServiceIntegrationTest {
     }
 
     @Test
-    public void test_saveVehicles() {
+    public void test1_saveVehicles() {
         List<Vehicle> vehicles = vehicleService.saveVehicles(vehicleDataList);
         Assert.assertEquals("34TL34", vehicles.get(0).getPlateNumber());
     }
 
     @Test
-    public void test_getVehiclesByPlateNumber() {
+    public void test2_getVehiclesByPlateNumber() {
         Vehicle vehicle = vehicleService.getVehicleByPlateNumber("34TL34");
         Assert.assertTrue(Objects.nonNull(vehicle));
         Assert.assertEquals(vehicle.getPlateNumber(),"34TL34");
