@@ -31,13 +31,13 @@ public class DeliveryPointServiceIntegrationTest extends ServiceIntegrationTest 
     }
 
     @Test
-    public void test_0_saveDeliveryPoints() {
+    public void test1_saveDeliveryPoints() {
         List<DeliveryPoint> deliveryPoints = deliveryPointService.saveDeliveryPoints(deliveryPointDataList);
         Assert.assertEquals(deliveryPoints.get(0).getType(), DeliveryPointType.Branch.name());
     }
 
     @Test
-    public void test_1_getAllDeliveryPoints() {
+    public void test2_getAllDeliveryPoints() {
         DeliveryPointDataList deliveryPointDataList = deliveryPointService.getAllDeliveryPoints();
         Assert.assertEquals(deliveryPointDataList.getDeliveryPoints().get(0).getType(),DeliveryPointType.Branch.name());
     }
