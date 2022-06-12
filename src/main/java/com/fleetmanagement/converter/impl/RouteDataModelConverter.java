@@ -130,7 +130,7 @@ public class RouteDataModelConverter implements Converter<RoutePlanData, List<Ro
         if (!shipments.stream().map(Shipment::getBarcode).collect(Collectors.toList()).containsAll(shipmentBarcodes)) {
             throw new NoDataFoundException(messageSource.getMessage("route.shipment.not-found", null, Locale.ENGLISH));
         }
-        return shipmentRepository.findAllById(shipmentBarcodes);
+        return shipments;
     }
 
     public void setDeliveryPointRepository(DeliveryPointRepository deliveryPointRepository) {
